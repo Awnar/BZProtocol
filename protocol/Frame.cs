@@ -22,6 +22,21 @@ namespace protocol
          * 
          */
 
+        /* Statusy:
+         *
+         * ---0 - prośba
+         * ---1 - akceptacja
+         *
+         * 000- - nawiązanie połączenia
+         * 001- - przesłanie liczb/-y
+         * 010- - wykonaj operację
+         * 011- - 
+         * 100- - 
+         * 101- - 
+         * 110- - przekroczono zakres zmiennej
+         * 111- - zakończenie transmisji
+         */
+
         byte _pole1, _pole2;
         char _sumaKomtrolna;
         List<double> _liczby;
