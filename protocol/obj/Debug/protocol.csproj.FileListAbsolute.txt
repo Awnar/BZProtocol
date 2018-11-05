@@ -1,0 +1,5 @@
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\protocol\bin\Debug\protocol.dll
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\protocol\bin\Debug\protocol.pdb
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\protocol\obj\Debug\protocol.csprojResolveAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\protocol\obj\Debug\protocol.dll
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\protocol\obj\Debug\protocol.pdb

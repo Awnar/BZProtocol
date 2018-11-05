@@ -80,7 +80,7 @@ namespace protocol
             int tmp = _pole1 + _pole2;
             foreach (var it in _liczby)
                 tmp += BitConverter.GetBytes(it).Sum(item => item);
-
+            return 0;
         }
     }
 }
