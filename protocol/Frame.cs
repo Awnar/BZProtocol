@@ -39,11 +39,35 @@ namespace protocol
 
         byte _pole1, _pole2;
         char _sumaKomtrolna;
+        bool _sumaKomtrolnaB;
         List<double> _liczby;
 
         public Frame(List<byte> bytes)
         {
-            
+            _konstruktor(bytes.ToArray());
+        }
+
+        public Frame(byte[] bytes)
+        {
+            _konstruktor(bytes.ToArray());
+        }
+
+        private void _konstruktor(byte[] bytes)
+        {
+            _pole1 = bytes[0];
+            _pole2 = bytes[1];
+
+            _sumaKomtrolna = BitConverter.ToChar(bytes, 2);
+
+            if (_Checksum() == _sumaKomtrolna)
+                _sumaKomtrolnaB = true;
+            else
+                _sumaKomtrolnaB = false;
+
+            for (int i = 4; i < bytes.Length; i+=8)
+            {
+                _liczby.Add(BitConverter.ToDouble(bytes, 4));
+            }
         }
 
         public byte Operacja
@@ -62,7 +86,7 @@ namespace protocol
         {
             get
             {
-                return (byte)(_pole2 & 0xf0);
+                return (byte)((_pole2 & 0xf0) >> 4);
             }
             set
             {
@@ -86,16 +110,20 @@ namespace protocol
         {
             get
             {
-                return false;
+                return _sumaKomtrolnaB;
             }
         }
 
-        private byte _Checksum()
+        private char _Checksum()
         {
             int tmp = _pole1 + _pole2;
             foreach (var it in _liczby)
                 tmp += BitConverter.GetBytes(it).Sum(item => item);
-            return 0;
+            while (tmp>0xffff)
+            {
+                tmp = (tmp & 0xffff) + (tmp >> 16);
+            }
+            return (char)tmp;
         }
     }
 }
