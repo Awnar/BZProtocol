@@ -28,7 +28,7 @@ namespace protocol
 
         public Frame(List<byte> bytes)
         {
-            this.Operacja = 11;
+            
         }
 
         public byte Operacja
