@@ -42,6 +42,26 @@ namespace protocol
         bool _sumaKomtrolnaB;
         List<double> _liczby;
 
+        public Frame()
+        {
+        }
+
+        public List<byte> gen()
+        {
+            var gen = new List<byte>();
+            gen.Add(_pole1);
+            gen.Add(_pole2);
+            _sumaKomtrolna = _Checksum();
+            gen.AddRange(BitConverter.GetBytes(_sumaKomtrolna));
+            if (_liczby != null)
+                foreach (var item in _liczby)
+                {
+                    gen.AddRange(BitConverter.GetBytes(item));
+                }
+
+            return gen;
+        }
+
         public Frame(List<byte> bytes)
         {
             _konstruktor(bytes.ToArray());
@@ -64,66 +84,61 @@ namespace protocol
             else
                 _sumaKomtrolnaB = false;
 
-            for (int i = 4; i < bytes.Length; i+=8)
-            {
-                _liczby.Add(BitConverter.ToDouble(bytes, 4));
-            }
+            _liczby = new List<double>();
+            
+            if ((bytes.Length - 4) % sizeof(double) == 0)
+                for (int i = 4; i < bytes.Length; i += sizeof(double))
+                {
+                    _liczby.Add(BitConverter.ToDouble(bytes, i));
+                }
         }
 
         public byte Operacja
         {
-            get
-            {
-                return (byte)(_pole1 & 0x03);
-            }
-            set
-            {
-                _pole1 = (byte)((_pole1 & 0xfc) + (value & 0x03));
-            }
+            get { return (byte) (_pole1 & 0x03); }
+            set { _pole1 = (byte) ((_pole1 & 0xfc) + (value & 0x03)); }
         }
 
         public byte Status
         {
-            get
-            {
-                return (byte)((_pole2 & 0xf0) >> 4);
-            }
-            set
-            {
-                _pole2 = (byte)((_pole2 & 0x0f) + (value << 4));
-            }
+            get { return (byte) ((_pole2 & 0xf0) >> 4); }
+            set { _pole2 = (byte) ((_pole2 & 0x0f) + (value << 4)); }
         }
 
         public byte ID
         {
-            get
-            {
-                return (byte)(_pole2 & 0x0f);
-            }
-            set
-            {
-                _pole2 = (byte)((_pole2 & 0xf0) + (value & 0x0f));
-            }
+            get { return (byte) (_pole2 & 0x0f); }
+            set { _pole2 = (byte) ((_pole2 & 0xf0) + (value & 0x0f)); }
         }
 
         public bool Checksum
         {
+            get { return _sumaKomtrolnaB; }
+        }
+
+        public List<double> Liczby
+        {
             get
             {
-                return _sumaKomtrolnaB;
+                if(_liczby==null) return new List<double>();
+                return _liczby;
             }
+            set { _liczby = value; }
         }
 
         private char _Checksum()
         {
             int tmp = _pole1 + _pole2;
-            foreach (var it in _liczby)
-                tmp += BitConverter.GetBytes(it).Sum(item => item);
-            while (tmp>0xffff)
+            _liczby = _liczby;
+            if (_liczby != null)
+                foreach (var it in _liczby)
+                    tmp += BitConverter.GetBytes(it).Sum(item => item);
+            while (tmp > 0xffff)
             {
                 tmp = (tmp & 0xffff) + (tmp >> 16);
             }
-            return (char)tmp;
+
+            return (char) tmp;
         }
     }
 }

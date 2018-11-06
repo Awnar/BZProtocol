@@ -1,0 +1,6 @@
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\bin\Debug\klient.exe.config
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\bin\Debug\klient.exe
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\bin\Debug\klient.pdb
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.csprojResolveAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.exe
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.pdb

@@ -10,6 +10,8 @@ namespace serwer
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Start...");
+            new UDPSerwer();
         }
     }
 }
