@@ -8,18 +8,16 @@ namespace protocol
 {
     public class Frame
     {
-        /* ?b wersji
-         * 
-         * 
-         * 2b pole operacji
-         * -----------------------
+        /* 4b wersji
          * 4b status
+         * -----------------------
+         * 2b pole operacji
+         * 2b ile liczb
          * 4b ID
          * -----------------------
          * 16b suma kontrolna
          * -----------------------
-         * pola liczb (64b)
-         * 
+         * pola liczb (64b)*3
          */
 
         /* Statusy:
@@ -95,14 +93,14 @@ namespace protocol
 
         public byte Operacja
         {
-            get { return (byte) (_pole1 & 0x03); }
-            set { _pole1 = (byte) ((_pole1 & 0xfc) + (value & 0x03)); }
+            get { return (byte) (_pole2 >> 6); }
+            set { _pole2 = (byte) ((_pole2 & 0x3f) + (value << 6)); }
         }
 
         public byte Status
         {
-            get { return (byte) ((_pole2 & 0xf0) >> 4); }
-            set { _pole2 = (byte) ((_pole2 & 0x0f) + (value << 4)); }
+            get { return (byte) (_pole1 & 0x0f); }
+            set { _pole1 = (byte) ((_pole1 & 0xf0) + value); }
         }
 
         public byte ID
@@ -129,7 +127,6 @@ namespace protocol
         private char _Checksum()
         {
             int tmp = _pole1 + _pole2;
-            _liczby = _liczby;
             if (_liczby != null)
                 foreach (var it in _liczby)
                     tmp += BitConverter.GetBytes(it).Sum(item => item);
