@@ -50,14 +50,6 @@ namespace protocol
 
         public List<byte> gen()
         {
-            if (_liczby != null)
-                if (_liczby.Length >= 3)
-                    IleLiczb = 3;
-                else
-                    IleLiczb = (byte) _liczby.Length;
-            else
-                IleLiczb = 0;
-
             var gen = new List<byte>();
             gen.Add(_pole1);
             gen.Add(_pole2);
@@ -85,14 +77,16 @@ namespace protocol
 
         private void _konstruktor(byte[] bytes)
         {
+            if (bytes.Length != 28) throw new Exception();
+
             _pole1 = bytes[0];
             _pole2 = bytes[1];
 
             _liczby = new double[3];
 
-            L1 = BitConverter.ToDouble(bytes, 2);
-            L2 = BitConverter.ToDouble(bytes, 10);
-            L3 = BitConverter.ToDouble(bytes, 18);
+            _liczby[0] = BitConverter.ToDouble(bytes, 2);
+            _liczby[1] = BitConverter.ToDouble(bytes, 10);
+            _liczby[2] = BitConverter.ToDouble(bytes, 18);
 
             _sumaKomtrolna = BitConverter.ToChar(bytes, 26);
 
@@ -112,7 +106,7 @@ namespace protocol
         public byte Status
         {
             get { return (byte) (_pole1 & 0x0f); }
-            set { _pole1 = (byte) ((_pole1 & 0xf0) + value); }
+            set { _pole1 = (byte) ((_pole1 & 0xf0) + (value & 0x0f)); }
         }
 
         public byte ID
@@ -128,8 +122,8 @@ namespace protocol
 
         public byte IleLiczb
         {
-            get { return (byte) (_pole2 & 0x30); }
-            private set { _pole2 = (byte) ((_pole2 & 0xcf) + (value & 0x30)); }
+            get { return (byte) ((_pole2 & 0x30)>>4); }
+            private set { _pole2 = (byte) ((_pole2 & 0xcf) + (value << 4)); }
         }
 
         public byte Wersja
