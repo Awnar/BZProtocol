@@ -15,9 +15,9 @@ namespace protocol
          * 2b ile liczb
          * 4b ID
          * -----------------------
-         * 16b suma kontrolna
-         * -----------------------
          * pola liczb (64b)*3
+         * -----------------------
+         * 16b suma kontrolna
          */
 
         /* Statusy:
@@ -38,24 +38,37 @@ namespace protocol
         byte _pole1, _pole2;
         char _sumaKomtrolna;
         bool _sumaKomtrolnaB;
-        List<double> _liczby;
+        double[] _liczby;
+
+        static byte _wersja = 1;
 
         public Frame()
         {
+            Wersja = _wersja;
+            _liczby = new double[3] {0, 0, 0};
         }
 
         public List<byte> gen()
         {
+            if (_liczby != null)
+                if (_liczby.Length >= 3)
+                    IleLiczb = 3;
+                else
+                    IleLiczb = (byte) _liczby.Length;
+            else
+                IleLiczb = 0;
+
             var gen = new List<byte>();
             gen.Add(_pole1);
             gen.Add(_pole2);
+
+            gen.AddRange(BitConverter.GetBytes(_liczby[0]));
+            gen.AddRange(BitConverter.GetBytes(_liczby[1]));
+            gen.AddRange(BitConverter.GetBytes(_liczby[2]));
+
             _sumaKomtrolna = _Checksum();
             gen.AddRange(BitConverter.GetBytes(_sumaKomtrolna));
-            if (_liczby != null)
-                foreach (var item in _liczby)
-                {
-                    gen.AddRange(BitConverter.GetBytes(item));
-                }
+            _sumaKomtrolnaB = true;
 
             return gen;
         }
@@ -67,7 +80,7 @@ namespace protocol
 
         public Frame(byte[] bytes)
         {
-            _konstruktor(bytes.ToArray());
+            _konstruktor(bytes);
         }
 
         private void _konstruktor(byte[] bytes)
@@ -75,20 +88,19 @@ namespace protocol
             _pole1 = bytes[0];
             _pole2 = bytes[1];
 
-            _sumaKomtrolna = BitConverter.ToChar(bytes, 2);
+            _liczby = new double[3];
+
+            L1 = BitConverter.ToDouble(bytes, 2);
+            L2 = BitConverter.ToDouble(bytes, 10);
+            L3 = BitConverter.ToDouble(bytes, 18);
+
+            _sumaKomtrolna = BitConverter.ToChar(bytes, 26);
 
             if (_Checksum() == _sumaKomtrolna)
                 _sumaKomtrolnaB = true;
             else
                 _sumaKomtrolnaB = false;
 
-            _liczby = new List<double>();
-            
-            if ((bytes.Length - 4) % sizeof(double) == 0)
-                for (int i = 4; i < bytes.Length; i += sizeof(double))
-                {
-                    _liczby.Add(BitConverter.ToDouble(bytes, i));
-                }
         }
 
         public byte Operacja
@@ -114,14 +126,46 @@ namespace protocol
             get { return _sumaKomtrolnaB; }
         }
 
-        public List<double> Liczby
+        public byte IleLiczb
         {
-            get
+            get { return (byte) (_pole2 & 0x30); }
+            private set { _pole2 = (byte) ((_pole2 & 0xcf) + (value & 0x30)); }
+        }
+
+        public byte Wersja
+        {
+            get { return (byte) (_pole1 >> 4); }
+            private set { _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4)); }
+        }
+
+        public double L1
+        {
+            get { return _liczby[0]; }
+            set
             {
-                if(_liczby==null) return new List<double>();
-                return _liczby;
+                if (IleLiczb < 1) IleLiczb = 1;
+                _liczby[0] = value;
             }
-            set { _liczby = value; }
+        }
+
+        public double L2
+        {
+            get { return _liczby[1]; }
+            set
+            {
+                if (IleLiczb < 2) IleLiczb = 2;
+                _liczby[1] = value;
+            }
+        }
+
+        public double L3
+        {
+            get { return _liczby[2]; }
+            set
+            {
+                if (IleLiczb < 3) IleLiczb = 3;
+                _liczby[2] = value;
+            }
         }
 
         private char _Checksum()

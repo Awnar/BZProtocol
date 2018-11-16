@@ -11,6 +11,7 @@ namespace protocol.Tests
     [TestClass()]
     public class FrameTests
     {
+
         [TestMethod()]
         public void FrameTest()
         {
@@ -21,9 +22,8 @@ namespace protocol.Tests
 
             var z = new Frame(x.gen());
 
-            Console.WriteLine(z.ID +"\n"+z.Operacja+"\n"+z.Status+"\n"+z.Checksum);
-            z.Liczby.ForEach(item => Console.WriteLine(item));
-
+            Console.WriteLine(z.ID +"\n"+z.Operacja+"\n"+z.Status+"\n"+z.Checksum+"\n"+z.IleLiczb);
+            Console.WriteLine(z.L1 + "\n" + z.L2 + "\n" + z.L3);
         }
 
         [TestMethod()]
@@ -34,16 +34,13 @@ namespace protocol.Tests
             x.Operacja = 2;
             x.Status = 3;
 
-            var q = new List<double>();
-            q.Add(34);
-            q.Add(28);
-
-            x.Liczby = q;
+            x.L1 = 28;
+            x.L2 = 38;
             
             var z = new Frame(x.gen());
 
-            Console.WriteLine(z.ID + "\n" + z.Operacja + "\n" + z.Status + "\n" + z.Checksum);
-            z.Liczby.ForEach(item=>Console.WriteLine(item));
+            Console.WriteLine(z.ID + "\n" + z.Operacja + "\n" + z.Status + "\n" + z.Checksum + "\n" + z.IleLiczb);
+            Console.WriteLine(z.L1 + "\n" + z.L2 + "\n" + z.L3);
         }
     }
 }

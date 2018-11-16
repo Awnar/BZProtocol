@@ -3,3 +3,6 @@ C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\serwer.exe
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\serwer.pdb
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.exe
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.pdb
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\protocol.dll
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\protocol.pdb
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csprojResolveAssemblyReference.cache
