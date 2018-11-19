@@ -53,7 +53,7 @@ namespace LiczTest
             x.Status = 3;
             x.Wersja = 11;
 
-            var data = x.gen().ToArray();
+            var data = x.gen();
             var licz = new ThreadLicz(data, _serwer);
             licz.Run();
 
@@ -73,7 +73,7 @@ namespace LiczTest
             x.L1 = 2;
             x.Wersja = 11;
 
-            var data = x.gen().ToArray();
+            var data = x.gen();
             var licz = new ThreadLicz(data, _serwer);
             licz.Run();
         }
@@ -92,7 +92,7 @@ namespace LiczTest
 
                 if (i == 15) x.Wersja = 11;
 
-                var data = x.gen().ToArray();
+                var data = x.gen();
                 var licz = new ThreadLicz(data, _serwer);
                 licz.Run();
                 Thread.Sleep(10);
@@ -109,7 +109,7 @@ namespace LiczTest
 
             //sesja
             var x = new Frame();
-            var data = x.gen().ToArray();
+            var data = x.gen();
             var licz = new ThreadLicz(data, _serwer);
             licz.Run();
 
@@ -123,7 +123,7 @@ namespace LiczTest
             x.ID = FR[0].ID;
             x.L1 = 12.4;
             x.Status = 2;
-            data = x.gen().ToArray();
+            data = x.gen();
             licz = new ThreadLicz(data, _serwer);
             licz.Run();
 
@@ -131,7 +131,7 @@ namespace LiczTest
             x.ID = FR[0].ID;
             x.L1 = 0.6;
             x.Status = 2;
-            data = x.gen().ToArray();
+            data = x.gen();
             licz = new ThreadLicz(data, _serwer);
             licz.Run();
 
@@ -140,7 +140,7 @@ namespace LiczTest
             x.Status = 4;
             x.Operacja = 0b10;
             x.Wersja = 11;
-            data = x.gen().ToArray();
+            data = x.gen();
             licz = new ThreadLicz(data, _serwer);
             licz.Run();
         }
@@ -176,7 +176,7 @@ namespace LiczTest
                 Console.WriteLine("++++++++++");
                 Thread.CurrentThread.Abort();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
             }
             finally
@@ -186,7 +186,7 @@ namespace LiczTest
                     Console.WriteLine("++++++++++");
                     Assert.Fail();
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                 }
                 finally
@@ -196,7 +196,7 @@ namespace LiczTest
                         Console.WriteLine("++++++++++");
                         Environment.Exit(1);
                     }
-                    catch (Exception exception)
+                    catch (Exception)
                     {
                     }
                 }

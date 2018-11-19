@@ -28,9 +28,9 @@ namespace protocol
          * 000- - nawiązanie połączenia
          * 001- - przesłanie liczb/-y
          * 010- - wykonaj operację
-         * 011- - 
+         * 011- - liczby + wykonaj operację
          * 100- - 
-         * 101- - 
+         * 101- - błędy w L1
          * 110- - przekroczono zakres zmiennej
          * 111- - zakończenie transmisji
          */
@@ -48,7 +48,7 @@ namespace protocol
             _liczby = new double[3] {0, 0, 0};
         }
 
-        public List<byte> gen()
+        public byte[] gen()
         {
             var gen = new List<byte>();
             gen.Add(_pole1);
@@ -62,7 +62,7 @@ namespace protocol
             gen.AddRange(BitConverter.GetBytes(_sumaKomtrolna));
             _sumaKomtrolnaB = true;
 
-            return gen;
+            return gen.ToArray();
         }
 
         public Frame(List<byte> bytes)

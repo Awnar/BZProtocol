@@ -15,6 +15,7 @@ namespace serwer
     {
         private Frame _frame;
         private IPEndPoint _client;
+        private static DB db = new DB();
 
         public ThreadLicz(byte[] data, IPEndPoint client)
         {
@@ -53,25 +54,24 @@ namespace serwer
               * 3 - nie znana sesja
               * 100 - nieznany błąd
               */
-
-            switch (_frame.Status)
-            {
-                case 0:
-                    newSession();
-                    break;
-                case 2:
-                    addnumber();
-                    break;
-                case 4:
-                    calculate();
-                    break;
-                case 12:
-                    endSession();
-                    break;
-                default:
-                    error();
-                    break;
-            }
+                switch (_frame.Status)
+                {
+                    case 0:
+                        newSession();
+                        break;
+                    case 2:
+                        addnumber();
+                        break;
+                    case 4:
+                        calculate();
+                        break;
+                    case 12:
+                        endSession();
+                        break;
+                    default:
+                        error();
+                        break;
+                }
         }
 
         private void calculate()
@@ -108,7 +108,7 @@ namespace serwer
 
         private double dodawanie()
         {
-            return DB.getNumbers(_frame.ID).Sum(item => item);
+            return db.getNumbers(_frame.ID).Sum(item => item);
         }
 
         private void addnumber()
@@ -119,16 +119,16 @@ namespace serwer
                 switch (_frame.IleLiczb)
                 {
                     case 3:
-                        DB.addNumbers(_frame.ID, _frame.L3);
-                        DB.addNumbers(_frame.ID, _frame.L2);
-                        DB.addNumbers(_frame.ID, _frame.L1);
+                        db.addNumbers(_frame.ID, _frame.L3);
+                        db.addNumbers(_frame.ID, _frame.L2);
+                        db.addNumbers(_frame.ID, _frame.L1);
                         break;
                     case 2:
-                        DB.addNumbers(_frame.ID, _frame.L2);
-                        DB.addNumbers(_frame.ID, _frame.L1);
+                        db.addNumbers(_frame.ID, _frame.L2);
+                        db.addNumbers(_frame.ID, _frame.L1);
                         break;
                     case 1:
-                        DB.addNumbers(_frame.ID, _frame.L1);
+                        db.addNumbers(_frame.ID, _frame.L1);
                         break;
                 }
                 tmp.ID = _frame.ID;
@@ -147,7 +147,7 @@ namespace serwer
 
         private void endSession()
         {
-            DB.unlockID(_frame.ID);
+            db.unlockID(_frame.ID);
             var tmp = new Frame();
 
             tmp.Status = 13;
@@ -158,7 +158,7 @@ namespace serwer
 
         private void newSession()
         {
-            var nID = DB.getFreeID();
+            var nID = db.getFreeID();
 
             var tmp = new Frame();
 

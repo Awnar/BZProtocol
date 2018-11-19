@@ -43,7 +43,7 @@ namespace serwer
                 m_server = new UdpClient(ipNport);
                 loop();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 m_server = null;
             }
