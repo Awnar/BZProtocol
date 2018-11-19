@@ -41,19 +41,22 @@ namespace serwer
              * 000-(0) - nawiązanie połączenia
              * 001-(2) - przesłanie liczb/-y
              * 010-(4) - wykonaj operację
-             * 011-(6) - 
+             * 011-(6) - liczby + wykonaj operację
              * 100-(8) - 
              * 101-(10) - błąd kody w L1
              * 110-(12) - przekroczono zakres zmiennej
              * 111-(14) - zakończenie transmisji
              */
 
-             /* Kody błędów
-              * 1 - brak wolnych sesji
-              * 2 - za dużo liczb
-              * 3 - nie znana sesja
-              * 100 - nieznany błąd
-              */
+            /* Kody błędów
+             * 1 - brak wolnych sesji
+             * 2 - za dużo liczb
+             * 3 - nie znana sesja
+             * 100 - nieznany błąd
+             */
+            Console.WriteLine(DateTime.Now + " ID:"+_frame.ID+" S:"+_frame.Status);
+            lock (db)
+            {
                 switch (_frame.Status)
                 {
                     case 0:
@@ -65,6 +68,10 @@ namespace serwer
                     case 4:
                         calculate();
                         break;
+                    case 6:
+                        addnumber();
+                        calculate(2);
+                        break;
                     case 12:
                         endSession();
                         break;
@@ -72,29 +79,33 @@ namespace serwer
                         error();
                         break;
                 }
+            }
         }
 
-        private void calculate()
+        private void calculate(byte s=0)
         {
             var tmp = new Frame();
             tmp.ID = _frame.ID;
-            tmp.Status = 5;
+            tmp.Status = (byte)(s + 5);
             try
             {
                 switch (_frame.Operacja)
                 {
                     case 0:
-                        dodawanie();
+                        tmp.L1 = mnozenie();
                         break;
                     case 1:
+                        tmp.L1 = dodawanie();
+                        break;
                     case 2:
+                        tmp.L1 = odejmowanie();
+                        break;
                     case 3:
+                        tmp.L1 = srednia();
                         break;
                     default:
                         break;
                 }
-
-
             }
             catch (Exception )
             {
@@ -109,6 +120,29 @@ namespace serwer
         private double dodawanie()
         {
             return db.getNumbers(_frame.ID).Sum(item => item);
+        }
+
+        private double odejmowanie()
+        {
+            var tmp = db.getNumbers(_frame.ID);
+            var result = tmp[0];
+            for (int i = 1; i < tmp.Count; i++)
+                result -= tmp[i];
+            return result;
+        }
+
+        private double mnozenie()
+        {
+            var tmp = db.getNumbers(_frame.ID);
+            var result = tmp[0];
+            for (int i = 1; i < tmp.Count; i++)
+                result *= tmp[i];
+            return result;
+        }
+
+        private double srednia()
+        {
+            return db.getNumbers(_frame.ID).Average(item => item);
         }
 
         private void addnumber()
@@ -189,6 +223,7 @@ namespace serwer
             a.Connect(_client);
             a.Send(data, data.Length);
             a.Close();
+            Console.WriteLine(DateTime.Now + "Odpowiedz dla ID:" + frame.ID + " S:" + frame.Status);
         }
     }
 }

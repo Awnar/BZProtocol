@@ -54,19 +54,11 @@ namespace serwer
             while (true)
             {
                 IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-
                 var data = m_server.Receive(ref sender);
-
-                Console.WriteLine(DateTime.Now + " Nowe zapytanie!");
-
                 var threadLicz = new ThreadLicz(data,sender);
-                threadLicz.Run();
-                //var Thread = new Thread(new ThreadStart(threadLicz.Run));
-                //Thread.Name = "connection";
-                //Thread.Start();
-
-                throw new NotImplementedException();
-
+                var Thread = new Thread(new ThreadStart(threadLicz.Run));
+                Thread.Name = "connection";
+                Thread.Start();
             }
         }
     }
