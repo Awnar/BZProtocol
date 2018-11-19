@@ -16,6 +16,8 @@ namespace klient
         private static int DEFAULT_PORT = 9999;
         private static IPEndPoint IPserwer;
 
+        private UdpClient serwer = null;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Witaj");
@@ -24,11 +26,39 @@ namespace klient
             serwer.Connect(DEFAULT_SERVER, DEFAULT_PORT);
 
             Frame frame = new Frame();
-            var data = frame.gen();
 
+        }
+
+        private void send(Frame fr)
+        {
+            var data = fr.gen();
             serwer.Send(data, data.Length);
+        }
 
-            data = serwer.Receive(ref IPserwer);
+        private void receive()
+        {
+            var timeToWait = TimeSpan.FromSeconds(10);
+
+            var udpClient = new UdpClient(DEFAULT_PORT);
+            var asyncResult = udpClient.BeginReceive(null, null);
+            asyncResult.AsyncWaitHandle.WaitOne(timeToWait);
+            if (asyncResult.IsCompleted)
+            {
+                try
+                {
+                    IPEndPoint remoteEP = null;
+                    byte[] receivedData = udpClient.EndReceive(asyncResult, ref remoteEP);
+                    // EndReceive worked and we have received data and remote endpoint
+                }
+                catch (Exception ex)
+                {
+                    // EndReceive failed and we ended up here
+                }
+            }
+            else
+            {
+                // The operation wasn't completed before the timeout and we're off the hook
+            }
         }
     }
 }
