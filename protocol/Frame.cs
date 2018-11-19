@@ -145,7 +145,7 @@ namespace protocol
         public byte Wersja
         {
             get => (byte) (_pole1 >> 4);
-            set => _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4));
+            private set => _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4));
         }
 
         public long L1

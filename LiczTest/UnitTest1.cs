@@ -51,7 +51,6 @@ namespace LiczTest
             x.ID = 12;
             x.Operacja = 2;
             x.Status = 3;
-            x.Wersja = 11;
 
             var data = x.gen();
             var licz = new ThreadLicz(data, _serwer);
@@ -71,7 +70,6 @@ namespace LiczTest
             x.ID = 12;
             x.Status = 2;
             x.L1 = 2;
-            x.Wersja = 11;
 
             var data = x.gen();
             var licz = new ThreadLicz(data, _serwer);
@@ -89,9 +87,6 @@ namespace LiczTest
             for (int i = 0; i <= 16; i++)
             {
                 var x = new Frame();
-
-                if (i == 15) x.Wersja = 11;
-
                 var data = x.gen();
                 var licz = new ThreadLicz(data, _serwer);
                 licz.Run();
@@ -116,9 +111,6 @@ namespace LiczTest
             while (FR.Count == 0)
                 Thread.Sleep(100);
 
-            if (FR[0].ID == 0)
-                Assert.Fail("Brak Sesji");
-
             //wysłanie liczby
             x.ID = FR[0].ID;
             x.L1 = 12;
@@ -138,14 +130,62 @@ namespace LiczTest
             //licz
             x.ID = FR[0].ID;
             x.Status = 4;
-            x.Operacja = 0b10;
-            x.Wersja = 11;
+            x.Operacja = 2;
             data = x.gen();
             licz = new ThreadLicz(data, _serwer);
             licz.Run();
         }
 
-        private void serwer()
+        [TestMethod]
+        public void liczenie2()
+        {
+            var __serwer = new Thread(new ThreadStart(serwer));
+            __serwer.Start();
+
+            IPEndPoint _serwer = new IPEndPoint(IPAddress.Loopback, 8080);
+
+            //sesja
+            var x = new Frame();
+            var data = x.gen();
+            var licz = new ThreadLicz(data, _serwer);
+            licz.Run();
+
+            while (FR.Count == 0)
+                Thread.Sleep(100);
+
+            //wysłanie liczby
+            x.ID = FR[0].ID;
+            x.L1 = 120;
+            x.Status = 2;
+            data = x.gen();
+            licz = new ThreadLicz(data, _serwer);
+            licz.Run();
+
+            //wysłanie liczby
+            x.ID = FR[0].ID;
+            x.L1 = 6;
+            x.Status = 2;
+            data = x.gen();
+            licz = new ThreadLicz(data, _serwer);
+            licz.Run();
+
+            //licz
+            x.ID = FR[0].ID;
+            x.Status = 6;
+            x.L1 = 5;
+            x.Operacja = 3;
+            data = x.gen();
+            licz = new ThreadLicz(data, _serwer);
+            licz.Run();
+
+            x.ID = FR[0].ID;
+            x.Status = 14;
+            data = x.gen();
+            licz = new ThreadLicz(data, _serwer);
+            licz.Run();
+        }
+
+        private void xserwer()
         {
             var client = new UdpClient(8080);
             IPEndPoint tmp = new IPEndPoint(IPAddress.Any, 0);
@@ -166,6 +206,40 @@ namespace LiczTest
                 Console.WriteLine(z.L1 + "\n" + z.L2 + "\n" + z.L3);
                 Console.WriteLine("---------------");
                 if (z.Wersja > 10) x = false;
+            }
+        }
+
+        private void serwer()
+        {
+            var timeToWait = TimeSpan.FromSeconds(10);
+            var udpClient = new UdpClient(8080);
+
+            while (true)
+            {
+                var asyncResult = udpClient.BeginReceive(null, null);
+                asyncResult.AsyncWaitHandle.WaitOne(timeToWait);
+                if (asyncResult.IsCompleted)
+                {
+                    try
+                    {
+                        IPEndPoint remoteEP = null;
+                        byte[] data = udpClient.EndReceive(asyncResult, ref remoteEP);
+                        var z = new Frame(data);
+                        FR.Add(z);
+                        Console.WriteLine(z.ID + "\n" + z.Operacja + "\n" + z.Status + "\n" + z.Checksum + "\n" + z.IleLiczb);
+                        Console.WriteLine(z.L1 + "\n" + z.L2 + "\n" + z.L3);
+                        Console.WriteLine("---------------");
+                    }
+                    catch (Exception ex)
+                    {
+                        // EndReceive failed and we ended up here
+                    }
+                }
+                else
+                {
+                    // The operation wasn't completed before the timeout and we're off the hook
+                    Console.WriteLine("+++++++++++++");
+                }
             }
         }
 

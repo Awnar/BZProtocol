@@ -70,10 +70,10 @@ namespace serwer
                         calculate();
                         break;
                     case 6:
-                        addnumber();
+                        addnumber(false);
                         calculate(2);
                         break;
-                    case 12:
+                    case 14:
                         endSession();
                         break;
                     default:
@@ -147,7 +147,7 @@ namespace serwer
         }
 
 
-        private void addnumber()
+        private void addnumber(bool x = true)
         {
             var tmp = new Frame();
             try
@@ -167,6 +167,7 @@ namespace serwer
                         db.addNumbers(_frame.ID, _frame.L1);
                         break;
                 }
+
                 tmp.ID = _frame.ID;
                 tmp.Status = 3;
             }
@@ -177,7 +178,7 @@ namespace serwer
             }
             finally
             {
-                send(tmp);
+                if (x) send(tmp);
             }
         }
 
@@ -186,8 +187,8 @@ namespace serwer
             db.unlockID(_frame.ID);
             var tmp = new Frame();
 
-            tmp.Status = 13;
-            tmp.Status = _frame.ID;
+            tmp.Status = 15;
+            tmp.ID = _frame.ID;
 
             send(tmp);
         }
