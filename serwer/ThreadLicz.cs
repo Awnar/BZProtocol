@@ -11,7 +11,7 @@ using protocol;
 
 namespace serwer
 {
-    class ThreadLicz
+    public class ThreadLicz
     {
         private Frame _frame;
         private IPEndPoint _client;
@@ -50,19 +50,22 @@ namespace serwer
              /* Kody błędów
               * 1 - brak wolnych sesji
               * 2 - za dużo liczb
+              * 3 - nie znana sesja
               * 100 - nieznany błąd
               */
 
-
             switch (_frame.Status)
             {
-                case (0):
+                case 0:
                     newSession();
                     break;
-                case (2):
+                case 2:
                     addnumber();
                     break;
-                case (12):
+                case 4:
+                    calculate();
+                    break;
+                case 12:
                     endSession();
                     break;
                 default:
@@ -71,11 +74,75 @@ namespace serwer
             }
         }
 
+        private void calculate()
+        {
+            var tmp = new Frame();
+            tmp.ID = _frame.ID;
+            tmp.Status = 5;
+            try
+            {
+                switch (_frame.Operacja)
+                {
+                    case 0:
+                        dodawanie();
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+            catch (Exception )
+            {
+                tmp.Status = 12;
+            }
+            finally
+            {
+                send(tmp);
+            }
+        }
+
+        private double dodawanie()
+        {
+            return DB.getNumbers(_frame.ID).Sum(item => item);
+        }
+
         private void addnumber()
         {
-            //if()
-
-            throw new NotImplementedException();
+            var tmp = new Frame();
+            try
+            {
+                switch (_frame.IleLiczb)
+                {
+                    case 3:
+                        DB.addNumbers(_frame.ID, _frame.L3);
+                        DB.addNumbers(_frame.ID, _frame.L2);
+                        DB.addNumbers(_frame.ID, _frame.L1);
+                        break;
+                    case 2:
+                        DB.addNumbers(_frame.ID, _frame.L2);
+                        DB.addNumbers(_frame.ID, _frame.L1);
+                        break;
+                    case 1:
+                        DB.addNumbers(_frame.ID, _frame.L1);
+                        break;
+                }
+                tmp.ID = _frame.ID;
+                tmp.Status = 3;
+            }
+            catch (Exception)
+            {
+                tmp.Status = 10;
+                tmp.L1 = 3;
+            }
+            finally
+            {
+                send(tmp);
+            }
         }
 
         private void endSession()
@@ -86,9 +153,7 @@ namespace serwer
             tmp.Status = 13;
             tmp.Status = _frame.ID;
 
-            var data = tmp.gen().ToArray();
-            UdpClient a = new UdpClient(_client);
-            a.Send(data, data.Length);
+            send(tmp);
         }
 
         private void newSession()
@@ -106,9 +171,7 @@ namespace serwer
                 tmp.Status = 1;
             tmp.ID = nID;
 
-            var data = tmp.gen().ToArray();
-            UdpClient a=new UdpClient(_client);
-            a.Send(data, data.Length);
+            send(tmp);
         }
 
         private void error()
@@ -116,9 +179,16 @@ namespace serwer
             var tmp = new Frame();
             tmp.Status = 10;
             tmp.L1 = 100;
-            var data = tmp.gen().ToArray();
-            UdpClient a = new UdpClient(_client);
+            send(tmp);
+        }
+
+        private void send(Frame frame)
+        {
+            var data = frame.gen().ToArray();
+            UdpClient a = new UdpClient();
+            a.Connect(_client);
             a.Send(data, data.Length);
+            a.Close();
         }
     }
 }

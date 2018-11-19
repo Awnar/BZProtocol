@@ -13,13 +13,13 @@ namespace serwer
 {
     class UDPSerwer
     {
-        public static IPAddress DEFAULT_SERVER = IPAddress.Any; //IPAddress.Parse("127.0.0.1");
-        public static int DEFAULT_PORT = 9999;
+        private static IPAddress DEFAULT_SERVER = IPAddress.Any; //IPAddress.Parse("127.0.0.1");
+        private static int DEFAULT_PORT = 9999;
 
-        public static IPEndPoint DEFAULT_IP_END_POINT =
+        private static IPEndPoint DEFAULT_IP_END_POINT =
             new IPEndPoint(DEFAULT_SERVER, DEFAULT_PORT);
 
-        UdpClient m_server = null;
+        private UdpClient m_server = null;
 
         public UDPSerwer()
         {

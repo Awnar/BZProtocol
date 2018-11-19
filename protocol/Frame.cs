@@ -80,6 +80,9 @@ namespace protocol
             if (bytes.Length != 28) throw new Exception();
 
             _pole1 = bytes[0];
+
+            //if(Wersja!=1) throw new Exception();
+
             _pole2 = bytes[1];
 
             _liczby = new double[3];
@@ -129,7 +132,7 @@ namespace protocol
         public byte Wersja
         {
             get { return (byte) (_pole1 >> 4); }
-            private set { _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4)); }
+            set { _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4)); }
         }
 
         public double L1

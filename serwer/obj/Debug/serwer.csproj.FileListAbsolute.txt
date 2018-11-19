@@ -5,4 +5,6 @@ C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.exe
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.pdb
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\protocol.dll
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\protocol.pdb
-C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csprojResolveAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csprojAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csproj.CoreCompileInputs.cache
+C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csproj.CopyComplete
