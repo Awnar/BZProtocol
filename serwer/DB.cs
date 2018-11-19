@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,32 +12,30 @@ namespace serwer
     {
         private struct session
         {
-            public List<double> numbers;
+            public List<long> numbers;
             public byte lastSStatus;
         }
 
-        private const byte MAX =15;
-        private static session[] db=new session[MAX];
+        private const byte MAX = 16;
+        private static session[] db = new session[MAX];
         private static bool[] dbb = new bool[MAX];
 
-        public List<double> getNumbers(byte ID)
+        public List<long> getNumbers(byte ID)
         {
-            if (dbb[ID] == true)
-                return db[ID].numbers;
-            return null;
+            return dbb[ID] ? db[ID].numbers : null;
         }
 
-        public void addNumbers(byte ID,List<double>numbers)
+        public void addNumbers(byte ID, List<long> numbers)
         {
-            if (dbb[ID] == true)
+            if (dbb[ID])
                 db[ID].numbers.AddRange(numbers);
             else
                 throw new Exception();
         }
 
-        public void addNumbers(byte ID, double numbers)
+        public void addNumbers(byte ID, long numbers)
         {
-            if (dbb[ID] == true)
+            if (dbb[ID])
                 db[ID].numbers.Add(numbers);
             else
                 throw new Exception();
@@ -44,34 +43,31 @@ namespace serwer
 
         public void clearNumbers(byte ID)
         {
-            if (dbb[ID] == true)
+            if (dbb[ID])
                 db[ID].numbers.Clear();
         }
 
         public byte getStatus(byte ID)
         {
-            if (dbb[ID] == true)
-                return db[ID].lastSStatus;
-            return 0;
+            return dbb[ID] ? db[ID].lastSStatus : (byte) 0;
         }
 
         public void setStatus(byte ID, byte status)
         {
-            if (dbb[ID] == true)
+            if (dbb[ID])
                 db[ID].lastSStatus = status;
         }
 
         public byte getFreeID()
         {
-            for (byte i = 1; i < MAX; i++)
+            for (byte i = 0; i < MAX; i++)
                 if (dbb[i] == false)
                 {
                     dbb[i] = true;
-                    db[i]=new session();
-                    db[i].numbers=new List<double>();
+                    db[i] = new session {numbers = new List<long>()};
                     return i;
                 }
-            return 0;
+            throw new Exception();
         }
 
         public void unlockID(byte ID)

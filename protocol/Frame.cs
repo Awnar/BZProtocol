@@ -29,10 +29,17 @@ namespace protocol
          * 001- - przesłanie liczb/-y
          * 010- - wykonaj operację
          * 011- - liczby + wykonaj operację
-         * 100- - 
-         * 101- - błędy w L1
+         * 100- - *do przyszłego zastosowania*
+         * 101- - błąd (w L1)
          * 110- - przekroczono zakres zmiennej
          * 111- - zakończenie transmisji
+         *
+         * Błędy:
+         * 
+         * 1 - brak wolnych miejsc w sesji
+         * 2 - przekroczono zakres zmiennej
+         * 3 - nieznana sesja
+         * 100 - nieznany błąd
          */
 
         byte _pole1, _pole2;

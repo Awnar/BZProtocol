@@ -33,45 +33,46 @@ namespace serwer
 
         public void Run()
         {
-            /* Statusy:
-             *
-             * ---0 - prośba
-             * ---1 - akceptacja
-             *
-             * 000-(0) - nawiązanie połączenia
-             * 001-(2) - przesłanie liczb/-y
-             * 010-(4) - wykonaj operację
-             * 011-(6) - 
-             * 100-(8) - 
-             * 101-(10) - błąd kody w L1
-             * 110-(12) - przekroczono zakres zmiennej
-             * 111-(14) - zakończenie transmisji
-             */
+           /* Statusy:
+            *
+            * ---0 - prośba
+            * ---1 - akceptacja
+            *
+            * 000- - nawiązanie połączenia
+            * 001- - przesłanie liczb/-y
+            * 010- - wykonaj operację
+            * 011- - liczby + wykonaj operację
+            * 100- - *do przyszłego zastosowania*
+            * 101- - błąd (w L1)
+            * 110- - przekroczono zakres zmiennej
+            * 111- - zakończenie transmisji
+            *
+            * Błędy:
+            * 
+            * 1 - brak wolnych miejsc w sesji
+            * 2 - przekroczono zakres zmiennej
+            * 3 - nieznana sesja
+            * 100 - nieznany błąd
+            */
 
-             /* Kody błędów
-              * 1 - brak wolnych sesji
-              * 2 - za dużo liczb
-              * 3 - nie znana sesja
-              * 100 - nieznany błąd
-              */
-                switch (_frame.Status)
-                {
-                    case 0:
-                        newSession();
-                        break;
-                    case 2:
-                        addnumber();
-                        break;
-                    case 4:
-                        calculate();
-                        break;
-                    case 12:
-                        endSession();
-                        break;
-                    default:
-                        error();
-                        break;
-                }
+            switch (_frame.Status)
+            {
+                case 0:
+                    newSession();
+                    break;
+                case 2:
+                    addnumber();
+                    break;
+                case 4:
+                    calculate();
+                    break;
+                case 12:
+                    endSession();
+                    break;
+                default:
+                    error();
+                    break;
+            }
         }
 
         private void calculate()
@@ -106,7 +107,7 @@ namespace serwer
             }
         }
 
-        private double dodawanie()
+        private long dodawanie()
         {
             return db.getNumbers(_frame.ID).Sum(item => item);
         }
