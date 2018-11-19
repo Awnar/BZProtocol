@@ -33,71 +33,82 @@ namespace serwer
 
         public void Run()
         {
-           /* Statusy:
-            *
-            * ---0 - prośba
-            * ---1 - akceptacja
-            *
-            * 000- - nawiązanie połączenia
-            * 001- - przesłanie liczb/-y
-            * 010- - wykonaj operację
-            * 011- - liczby + wykonaj operację
-            * 100- - *do przyszłego zastosowania*
-            * 101- - błąd (w L1)
-            * 110- - przekroczono zakres zmiennej
-            * 111- - zakończenie transmisji
-            *
-            * Błędy:
-            * 
-            * 1 - brak wolnych miejsc w sesji
-            * 2 - przekroczono zakres zmiennej
-            * 3 - nieznana sesja
-            * 100 - nieznany błąd
-            */
+            /* Statusy:
+             *
+             * ---0 - prośba
+             * ---1 - akceptacja
+             *
+             * 000- - nawiązanie połączenia
+             * 001- - przesłanie liczb/-y
+             * 010- - wykonaj operację
+             * 011- - liczby + wykonaj operację
+             * 100- - *do przyszłego zastosowania*
+             * 101- - błąd (w L1)
+             * 110- - przekroczono zakres zmiennej
+             * 111- - zakończenie transmisji
+             *
+             * Błędy:
+             * 
+             * 1 - brak wolnych miejsc w sesji
+             * 2 - przekroczono zakres zmiennej
+             * 3 - nieznana sesja
+             * 100 - nieznany błąd
+             */
 
-            switch (_frame.Status)
+            Console.WriteLine(DateTime.Now + " ID:" + _frame.ID + " S:" + _frame.Status);
+            lock (db)
             {
-                case 0:
-                    newSession();
-                    break;
-                case 2:
-                    addnumber();
-                    break;
-                case 4:
-                    calculate();
-                    break;
-                case 12:
-                    endSession();
-                    break;
-                default:
-                    error();
-                    break;
+                switch (_frame.Status)
+                {
+                    case 0:
+                        newSession();
+                        break;
+                    case 2:
+                        addnumber();
+                        break;
+                    case 4:
+                        calculate();
+                        break;
+                    case 6:
+                        addnumber();
+                        calculate(2);
+                        break;
+                    case 12:
+                        endSession();
+                        break;
+                    default:
+                        error();
+                        break;
+                }
             }
         }
 
-        private void calculate()
+        private void calculate(byte s = 0)
         {
             var tmp = new Frame();
             tmp.ID = _frame.ID;
-            tmp.Status = 5;
+            tmp.Status = (byte)(s + 5);
             try
             {
                 switch (_frame.Operacja)
                 {
                     case 0:
-                        dodawanie();
+                        tmp.L1 = mnozenie();
                         break;
                     case 1:
+                        tmp.L1 = dodawanie();
+                        break;
                     case 2:
+                        tmp.L1 = odejmowanie();
+                        break;
                     case 3:
+                        tmp.L1 = srednia();
                         break;
                     default:
                         break;
                 }
-
-
             }
-            catch (Exception )
+            catch (Exception)
             {
                 tmp.Status = 12;
             }
@@ -111,6 +122,30 @@ namespace serwer
         {
             return db.getNumbers(_frame.ID).Sum(item => item);
         }
+
+        private long odejmowanie()
+        {
+            var tmp = db.getNumbers(_frame.ID);
+            var result = tmp[0];
+            for (int i = 1; i < tmp.Count; i++)
+                result -= tmp[i];
+            return result;
+        }
+
+        private long mnozenie()
+        {
+            var tmp = db.getNumbers(_frame.ID);
+            var result = tmp[0];
+            for (int i = 1; i < tmp.Count; i++)
+                result *= tmp[i];
+            return result;
+        }
+
+        private long srednia()
+        {
+            return (long)db.getNumbers(_frame.ID).Average(item => item);
+        }
+
 
         private void addnumber()
         {
@@ -159,20 +194,22 @@ namespace serwer
 
         private void newSession()
         {
-            var nID = db.getFreeID();
-
             var tmp = new Frame();
-
-            if (nID == 0)
+            try
+            {
+                var nID = db.getFreeID();
+                tmp.Status = 1;
+                tmp.ID = nID;
+            }
+            catch (Exception)
             {
                 tmp.Status = 10;
                 tmp.L1 = 1;
             }
-            else
-                tmp.Status = 1;
-            tmp.ID = nID;
-
-            send(tmp);
+            finally
+            {
+                send(tmp);
+            }
         }
 
         private void error()
