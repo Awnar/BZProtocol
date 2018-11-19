@@ -8,3 +8,13 @@ C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\bin\Debug\protocol.pdb
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csprojAssemblyReference.cache
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csproj.CoreCompileInputs.cache
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\serwer\obj\Debug\serwer.csproj.CopyComplete
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\bin\Debug\serwer.exe.config
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\bin\Debug\serwer.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\bin\Debug\serwer.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\bin\Debug\protocol.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\bin\Debug\protocol.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\obj\Debug\serwer.csprojAssemblyReference.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\obj\Debug\serwer.csproj.CoreCompileInputs.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\obj\Debug\serwer.csproj.CopyComplete
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\obj\Debug\serwer.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\serwer\obj\Debug\serwer.pdb

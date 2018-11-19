@@ -121,7 +121,7 @@ namespace LiczTest
 
             //wysłanie liczby
             x.ID = FR[0].ID;
-            x.L1 = 12.4;
+            x.L1 = 12;
             x.Status = 2;
             data = x.gen();
             licz = new ThreadLicz(data, _serwer);
@@ -129,7 +129,7 @@ namespace LiczTest
 
             //wysłanie liczby
             x.ID = FR[0].ID;
-            x.L1 = 0.6;
+            x.L1 = 6;
             x.Status = 2;
             data = x.gen();
             licz = new ThreadLicz(data, _serwer);

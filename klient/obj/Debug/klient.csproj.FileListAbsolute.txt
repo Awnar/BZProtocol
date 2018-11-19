@@ -5,3 +5,10 @@ C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.exe
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.pdb
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.csprojAssemblyReference.cache
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\klient\obj\Debug\klient.csproj.CoreCompileInputs.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\bin\Debug\klient.exe.config
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\bin\Debug\klient.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\bin\Debug\klient.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\obj\Debug\klient.csprojAssemblyReference.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\obj\Debug\klient.csproj.CoreCompileInputs.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\obj\Debug\klient.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\klient\obj\Debug\klient.pdb

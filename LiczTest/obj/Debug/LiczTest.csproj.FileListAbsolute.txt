@@ -20,3 +20,22 @@ C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\LiczTest\bin\Debug\serwer.exe
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\LiczTest\bin\Debug\protocol.pdb
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\LiczTest\bin\Debug\serwer.pdb
 C:\Users\Awnar\Source\Repos\Awnar\BZProtocol\LiczTest\bin\Debug\serwer.exe.config
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\obj\Debug\LiczTest.csprojAssemblyReference.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\obj\Debug\LiczTest.csproj.CoreCompileInputs.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\LiczTest.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\LiczTest.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\protocol.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\serwer.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\protocol.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\serwer.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\serwer.exe.config
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\obj\Debug\LiczTest.csproj.CopyComplete
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\obj\Debug\LiczTest.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\LiczTest\obj\Debug\LiczTest.pdb

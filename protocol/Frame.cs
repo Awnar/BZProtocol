@@ -38,14 +38,28 @@ namespace protocol
         byte _pole1, _pole2;
         char _sumaKomtrolna;
         bool _sumaKomtrolnaB;
-        double[] _liczby;
+        long[] _liczby;
 
         static byte _wersja = 1;
 
         public Frame()
         {
             Wersja = _wersja;
-            _liczby = new double[3] {0, 0, 0};
+            _liczby = new long[3] {0, 0, 0};
+        }
+
+        private char _Checksum()
+        {
+            int tmp = _pole1 + _pole2;
+            if (_liczby != null)
+                foreach (var it in _liczby)
+                    tmp += BitConverter.GetBytes(it).Sum(item => item);
+            while (tmp > 0xffff)
+            {
+                tmp = (tmp & 0xffff) + (tmp >> 16);
+            }
+
+            return (char)tmp;
         }
 
         public byte[] gen()
@@ -65,6 +79,26 @@ namespace protocol
             return gen.ToArray();
         }
 
+        private void _konstruktor(byte[] bytes)
+        {
+            if (bytes.Length != 28) throw new Exception();
+
+            //if(Wersja != 1) throw new Exception();
+
+            _pole1 = bytes[0];
+            _pole2 = bytes[1];
+
+            _liczby = new long[3];
+
+            _liczby[0] = BitConverter.ToInt64(bytes, 2);
+            _liczby[1] = BitConverter.ToInt64(bytes, 10);
+            _liczby[2] = BitConverter.ToInt64(bytes, 18);
+
+            _sumaKomtrolna = BitConverter.ToChar(bytes, 26);
+
+            _sumaKomtrolnaB = _Checksum() == _sumaKomtrolna;
+        }
+
         public Frame(List<byte> bytes)
         {
             _konstruktor(bytes.ToArray());
@@ -75,69 +109,41 @@ namespace protocol
             _konstruktor(bytes);
         }
 
-        private void _konstruktor(byte[] bytes)
-        {
-            if (bytes.Length != 28) throw new Exception();
-
-            _pole1 = bytes[0];
-
-            //if(Wersja!=1) throw new Exception();
-
-            _pole2 = bytes[1];
-
-            _liczby = new double[3];
-
-            _liczby[0] = BitConverter.ToDouble(bytes, 2);
-            _liczby[1] = BitConverter.ToDouble(bytes, 10);
-            _liczby[2] = BitConverter.ToDouble(bytes, 18);
-
-            _sumaKomtrolna = BitConverter.ToChar(bytes, 26);
-
-            if (_Checksum() == _sumaKomtrolna)
-                _sumaKomtrolnaB = true;
-            else
-                _sumaKomtrolnaB = false;
-
-        }
-
         public byte Operacja
         {
-            get { return (byte) (_pole2 >> 6); }
-            set { _pole2 = (byte) ((_pole2 & 0x3f) + (value << 6)); }
+            get => (byte) (_pole2 >> 6);
+            set => _pole2 = (byte) ((_pole2 & 0x3f) + (value << 6));
         }
 
         public byte Status
         {
-            get { return (byte) (_pole1 & 0x0f); }
-            set { _pole1 = (byte) ((_pole1 & 0xf0) + (value & 0x0f)); }
+            get => (byte) (_pole1 & 0x0f);
+            set => _pole1 = (byte) ((_pole1 & 0xf0) + (value & 0x0f));
         }
 
         public byte ID
         {
-            get { return (byte) (_pole2 & 0x0f); }
-            set { _pole2 = (byte) ((_pole2 & 0xf0) + (value & 0x0f)); }
+            get => (byte) (_pole2 & 0x0f);
+            set => _pole2 = (byte) ((_pole2 & 0xf0) + (value & 0x0f));
         }
 
-        public bool Checksum
-        {
-            get { return _sumaKomtrolnaB; }
-        }
+        public bool Checksum => _sumaKomtrolnaB;
 
         public byte IleLiczb
         {
-            get { return (byte) ((_pole2 & 0x30)>>4); }
-            private set { _pole2 = (byte) ((_pole2 & 0xcf) + (value << 4)); }
+            get => (byte) ((_pole2 & 0x30)>>4);
+            private set => _pole2 = (byte) ((_pole2 & 0xcf) + (value << 4));
         }
 
         public byte Wersja
         {
-            get { return (byte) (_pole1 >> 4); }
-            set { _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4)); }
+            get => (byte) (_pole1 >> 4);
+            set => _pole1 = (byte) ((_pole1 & 0x0f) + (value << 4));
         }
 
-        public double L1
+        public long L1
         {
-            get { return _liczby[0]; }
+            get => _liczby[0];
             set
             {
                 if (IleLiczb < 1) IleLiczb = 1;
@@ -145,9 +151,9 @@ namespace protocol
             }
         }
 
-        public double L2
+        public long L2
         {
-            get { return _liczby[1]; }
+            get => _liczby[1];
             set
             {
                 if (IleLiczb < 2) IleLiczb = 2;
@@ -155,28 +161,14 @@ namespace protocol
             }
         }
 
-        public double L3
+        public long L3
         {
-            get { return _liczby[2]; }
+            get => _liczby[2];
             set
             {
                 if (IleLiczb < 3) IleLiczb = 3;
                 _liczby[2] = value;
             }
-        }
-
-        private char _Checksum()
-        {
-            int tmp = _pole1 + _pole2;
-            if (_liczby != null)
-                foreach (var it in _liczby)
-                    tmp += BitConverter.GetBytes(it).Sum(item => item);
-            while (tmp > 0xffff)
-            {
-                tmp = (tmp & 0xffff) + (tmp >> 16);
-            }
-
-            return (char) tmp;
         }
     }
 }
