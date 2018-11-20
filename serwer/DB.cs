@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -30,7 +31,7 @@ namespace serwer
             if (dbb[ID])
                 db[ID].numbers.AddRange(numbers);
             else
-                throw new Exception();
+                throw new InvalidExpressionException();
         }
 
         public void addNumbers(byte ID, long numbers)
@@ -38,7 +39,7 @@ namespace serwer
             if (dbb[ID])
                 db[ID].numbers.Add(numbers);
             else
-                throw new Exception();
+                throw new InvalidExpressionException();
         }
 
         public void clearNumbers(byte ID)

@@ -234,8 +234,11 @@ namespace klient
                 case 100:
                     Console.WriteLine("Serwer nie mógł rozpoznać żądania");
                     break;
+                case 101:
+                    Console.WriteLine("Nieobslugiwana wersja protokołu");
+                    break;
                 default:
-                    Console.WriteLine("Nie znany błąd");
+                    Console.WriteLine("Nieznany błąd");
                     break;
             }
         }

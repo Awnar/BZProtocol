@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -53,6 +54,7 @@ namespace serwer
              * 3 - nieznana sesja
              * 4 - brak liczb
              * 100 - nieznany błąd
+             * 101 - nie obsługiwana wersja protokołu
              */
 
             Console.WriteLine(DateTime.Now + " Client W: " + _frame.Wersja + " S:" + _frame.Status + " O: " +
@@ -117,6 +119,11 @@ namespace serwer
                 }
 
                 db.clearNumbers(_frame.ID);
+            }
+            catch (InvalidExpressionException)
+            {
+                tmp.Status = 10;
+                tmp.L1 = 3;
             }
             catch (OverflowException)
             {

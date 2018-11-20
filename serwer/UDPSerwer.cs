@@ -62,9 +62,14 @@ namespace serwer
                     m_server.Send(data, data.Length, sender);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("krytyczny błąd... ponawianie nasłuchiwania");
+                Console.WriteLine("BŁĄD... ponawianie nasłuchiwania"+e.Message);
+                Datagram d = new Datagram();
+                d.Status = 10;
+                d.L1 = 101;
+                var da = d.gen();
+                m_server.Send(da, da.Length);
                 loop();
             }
         }

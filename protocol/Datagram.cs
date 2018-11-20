@@ -89,11 +89,11 @@ namespace protocol
 
         private void _konstruktor(byte[] bytes)
         {
-            if (bytes.Length != 28) throw new Exception();
+            if (bytes.Length != 28) throw new Exception("Datagram ma złą długość");
 
             _pole1 = bytes[0];
 
-            if (Wersja != _wersja) throw new Exception();
+            if (Wersja != _wersja) throw new Exception("Zła wersja odebranego protokołu");
 
             _pole2 = bytes[1];
 
@@ -107,7 +107,7 @@ namespace protocol
 
             _sumaKomtrolnaB = _Checksum() == _sumaKomtrolna;
 
-            if(Checksum==false) throw new Exception();
+            if(Checksum==false) throw new Exception("Błąd sumy kontrolnej");
         }
 
         public Datagram(List<byte> bytes)
