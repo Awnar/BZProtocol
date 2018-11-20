@@ -51,25 +51,25 @@ namespace serwer
 
         void loop()
         {
+            IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
             try
             {
                 while (true)
                 {
-                    IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
                     var data = m_server.Receive(ref sender);
                     var threadLicz = new ThreadLicz(data);
                     data = threadLicz.Run();
                     m_server.Send(data, data.Length, sender);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("BŁĄD... ponawianie nasłuchiwania"+e.Message);
+                Console.WriteLine("BŁĄD... ponawianie nasłuchiwania");
                 Datagram d = new Datagram();
                 d.Status = 10;
                 d.L1 = 101;
                 var da = d.gen();
-                m_server.Send(da, da.Length);
+                m_server.Send(da, da.Length, sender);
                 loop();
             }
         }

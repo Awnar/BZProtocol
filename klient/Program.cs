@@ -12,7 +12,7 @@ namespace klient
 {
     class Program
     {
-        private static IPAddress DEFAULT_SERVER = IPAddress.Parse("127.0.0.1");
+        private static IPAddress DEFAULT_SERVER = IPAddress.Parse("10.0.0.2");
         private static int DEFAULT_PORT = 9999;
 
         private static UdpClient serwer = new UdpClient();
@@ -46,15 +46,29 @@ namespace klient
 
                 frame = new Datagram();
                 frame.ID = ID;
-                // ustalenie statusu
+                int choice = 0;
 
-                Console.WriteLine("Co chcesz zrobić?");
+                // ustalenie statusu
+                Console.WriteLine("\nCo chcesz zrobić?");
                 Console.WriteLine("1 - przeslanie liczb");
                 Console.WriteLine("2 - wykonanie operacji");
                 Console.WriteLine("3 - przeslanie liczb i wykonanie operacji");
                 Console.WriteLine("4 - zakonczenie transmisji");
                 Console.WriteLine("0 - edytuj ręcznie");
-                int choice = Int32.Parse(Console.ReadLine());
+                while (true)
+                {
+                    try
+                    {
+                        choice = Int32.Parse(Console.ReadLine());
+                        break;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                    }
+                }
+                
+                
                 switch (choice)
                 {
                     case 0:
@@ -87,7 +101,18 @@ namespace klient
                     Console.WriteLine("2 - dodawanie");
                     Console.WriteLine("3 - odejmowanie");
                     Console.WriteLine("4 - srednia");
-                    choice = Int32.Parse(Console.ReadLine());
+                    while (true)
+                    {
+                        try
+                        {
+                            choice = Int32.Parse(Console.ReadLine());
+                            break;
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                        }
+                    }
                     switch (choice)
                     {
                         case 1:
@@ -117,26 +142,70 @@ namespace klient
                         if (i % 3 == 1)
                         {
                             Console.WriteLine("\nWpisz pierwsza liczbe:");
-                            frame.L1 = Int64.Parse(Console.ReadLine());
+                            while (true)
+                            {
+                                try
+                                {
+                                    frame.L1 = Int64.Parse(Console.ReadLine());
+                                    break;
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                                }
+                            }
                         }
 
                         if (i % 3 == 2)
                         {
                             wpiszLiczby(1);
                             Console.WriteLine("Wpisz druga liczbe:");
-                            frame.L2 = Int64.Parse(Console.ReadLine());
+                            while (true)
+                            {
+                                try
+                                {
+                                    frame.L2 = Int64.Parse(Console.ReadLine());
+                                    break;
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                                }
+                            }
                         }
 
                         if (i % 3 == 0)
                         {
                             wpiszLiczby(2);
                             Console.WriteLine("Wpisz trzecia liczbe:");
-                            frame.L3 = Int64.Parse(Console.ReadLine());
+                            while (true)
+                            {
+                                try
+                                {
+                                    frame.L3 = Int64.Parse(Console.ReadLine());
+                                    break;
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                                }
+                            }
                         }
                     }
 
                     Console.WriteLine("Ile liczb chcesz przeslac? (1-3)");
-                    choice = Int32.Parse(Console.ReadLine());
+                    while (true)
+                    {
+                        try
+                        {
+                            choice = Int32.Parse(Console.ReadLine());
+                            break;
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                        }
+                    }
                     if (choice == 1 || choice == 2 || choice == 3)
                         wpiszLiczby(choice);
                     else
@@ -174,14 +243,16 @@ namespace klient
                     frame.L3 = Int64.Parse(Console.ReadLine());
                     Console.WriteLine("Ile liczb ma uwzglądniać");
                     frame.IleLiczb = byte.Parse(Console.ReadLine());
+                    Send(frame);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("coś poszło nie tak: " + e.Message);
+                    Console.WriteLine("Coś poszło nie tak: " + e.Message);
+                    continue;
                 }
                 break;
             }
-            Send(frame);
+
         }
 
         private static void odpS(Datagram fr)
