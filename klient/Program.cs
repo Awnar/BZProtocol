@@ -14,51 +14,165 @@ namespace klient
     {
         private static IPAddress DEFAULT_SERVER = IPAddress.Parse("127.0.0.1");
         private static int DEFAULT_PORT = 9999;
-        private static IPEndPoint IPserwer;
 
-        private UdpClient serwer = null;
+        private static UdpClient serwer = new UdpClient();
 
         static void Main(string[] args)
         {
             Console.WriteLine("Witaj");
-            UdpClient serwer = new UdpClient();
-
+            
             serwer.Connect(DEFAULT_SERVER, DEFAULT_PORT);
 
             Frame frame = new Frame();
+            Send(frame);
 
+            bool running = true;
+            while (running)
+
+            {
+                // ustalenie statusu
+
+                Console.WriteLine("Co chcesz zrobić?");
+                Console.WriteLine("1 - przeslanie liczb");
+                Console.WriteLine("2 - wykonanie operacji");
+                Console.WriteLine("3 - przeslanie liczb i wykonanie operacji");
+                Console.WriteLine("4 - zakonczenie transmisji");
+                int choice = Console.Read();
+                switch (choice)
+                {
+                    case 1:
+                        frame.Status = 2;
+                        break;
+                    case 2:
+                        frame.Status = 4;
+                        break;
+                    case 3:
+                        frame.Status = 6;
+                        break;
+                    case 4:
+                        frame.Status = 14;
+                        break;
+                    default:
+                        Console.WriteLine("Bład wejscia. Ustawiam na domyślny (przeslanie liczb)");
+                        frame.Status = 2;
+                        break;
+                }
+
+                if (frame.Status == 4 || frame.Status == 6)
+                {
+                    //ustalenie operacji
+
+                    Console.WriteLine("\nJaka operacje na liczbach chcesz wykonac?");
+                    Console.WriteLine("1 - mnozenie");
+                    Console.WriteLine("2 - dodawanie");
+                    Console.WriteLine("3 - odejmowanie");
+                    Console.WriteLine("4 - srednia");
+                    choice = Console.Read();
+                    switch (choice)
+                    {
+                        case 1:
+                            frame.Operacja = 0;
+                            break;
+                        case 2:
+                            frame.Operacja = 1;
+                            break;
+                        case 3:
+                            frame.Operacja = 2;
+                            break;
+                        case 4:
+                            frame.Operacja = 3;
+                            break;
+                        default:
+                            Console.WriteLine("Nie ma takiej operacji. Ustawiam na domyślny (dodawanie)");
+                            frame.Operacja = 0;
+                            break;
+                    }
+                }
+
+                if (frame.Status == 2 || frame.Status == 6)
+                {
+                    // ustalenie ilości liczb i ich wartości
+                    void wpiszLiczby(int i)
+                    {
+                        if (i % 3 == 1)
+                        {
+                            Console.WriteLine("\nWpisz pierwsza liczbe:");
+                            frame.L1 = Console.Read();
+                        }
+
+                        if (i % 3 == 2)
+                        {
+                            wpiszLiczby(1);
+                            Console.WriteLine("Wpisz druga liczbe:");
+                            frame.L2 = Console.Read();
+                        }
+
+                        if (i % 3 == 0)
+                        {
+                            wpiszLiczby(1); wpiszLiczby(2);
+                            Console.WriteLine("Wpisz trzecia liczbe:");
+                            frame.L3 = Console.Read();
+                        }
+                    }
+
+                    Console.WriteLine("Ile liczb chcesz przeslac? (1-3)");
+                    choice = Console.Read();
+                    if (choice == 1 || choice == 2 || choice == 3)
+                        wpiszLiczby(choice);
+                    else
+                    {
+                        Console.WriteLine("Bład wejscia. Ustawiam na domyślny (jedna liczba)");
+                        wpiszLiczby(1);
+                    }
+                }
+
+            }
         }
 
-        private void send(Frame fr)
+        private static void Send(Frame fr)
         {
             var data = fr.gen();
             serwer.Send(data, data.Length);
         }
 
-        private void receive()
+        private static byte[] ReceiveLoop(byte i = 0)
+        {
+            try
+            {
+                return Receive();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Serwer nie odsyła odpowiedzi, próba:" + (i + 1));
+                if (i++ < 3)
+                {
+                    return ReceiveLoop(i);
+                }
+                else
+                {
+                    throw new Exception("Brak odpowiedzi od serwera");
+                }
+            }
+        }
+
+
+        private static byte[] Receive()
         {
             var timeToWait = TimeSpan.FromSeconds(10);
 
-            var udpClient = new UdpClient(DEFAULT_PORT);
-            var asyncResult = udpClient.BeginReceive(null, null);
+            var asyncResult = serwer.BeginReceive(null, null);
             asyncResult.AsyncWaitHandle.WaitOne(timeToWait);
             if (asyncResult.IsCompleted)
-            {
                 try
                 {
                     IPEndPoint remoteEP = null;
-                    byte[] receivedData = udpClient.EndReceive(asyncResult, ref remoteEP);
-                    // EndReceive worked and we have received data and remote endpoint
+                    return serwer.EndReceive(asyncResult, ref remoteEP);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    // EndReceive failed and we ended up here
+                    throw new Exception();
                 }
-            }
-            else
-            {
-                // The operation wasn't completed before the timeout and we're off the hook
-            }
+            throw new Exception();
         }
     }
 }

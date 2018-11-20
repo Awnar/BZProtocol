@@ -14,14 +14,13 @@ namespace serwer
     public class ThreadLicz
     {
         private Frame _frame;
-        private IPEndPoint _client;
         private static DB db = new DB();
+        private byte[] data;
 
-        public ThreadLicz(byte[] data, IPEndPoint client)
+        public ThreadLicz(byte[] data)
         {
             try
             {
-                _client = client;
                 _frame = new Frame(data);
             }
             catch (Exception e)
@@ -31,7 +30,7 @@ namespace serwer
             }
         }
 
-        public void Run()
+        public byte[] Run()
         {
             /* Statusy:
              *
@@ -81,6 +80,7 @@ namespace serwer
                         break;
                 }
             }
+            return data;
         }
 
         private void calculate(byte s = 0)
@@ -114,7 +114,7 @@ namespace serwer
             }
             finally
             {
-                send(tmp);
+                data = tmp.gen().ToArray();
             }
         }
 
@@ -178,7 +178,7 @@ namespace serwer
             }
             finally
             {
-                if (x) send(tmp);
+                data = tmp.gen().ToArray();
             }
         }
 
@@ -190,7 +190,7 @@ namespace serwer
             tmp.Status = 15;
             tmp.ID = _frame.ID;
 
-            send(tmp);
+            data = tmp.gen().ToArray();
         }
 
         private void newSession()
@@ -209,7 +209,7 @@ namespace serwer
             }
             finally
             {
-                send(tmp);
+                data = tmp.gen().ToArray();
             }
         }
 
@@ -218,16 +218,7 @@ namespace serwer
             var tmp = new Frame();
             tmp.Status = 10;
             tmp.L1 = 100;
-            send(tmp);
-        }
-
-        private void send(Frame frame)
-        {
-            var data = frame.gen().ToArray();
-            UdpClient a = new UdpClient();
-            a.Connect(_client);
-            a.Send(data, data.Length);
-            a.Close();
+            data = tmp.gen().ToArray();
         }
     }
 }

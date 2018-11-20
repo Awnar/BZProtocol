@@ -20,3 +20,14 @@ D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\protocolTests\obj\Debug\
 D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\protocolTests\obj\Debug\protocolTests.csproj.CopyComplete
 D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\protocolTests\obj\Debug\protocolTests.dll
 D:\Downloads\Studia\Semestr 03\TS\BZProtocol\BZProtocol\protocolTests\obj\Debug\protocolTests.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Debug\protocolTests.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Debug\protocolTests.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Debug\protocol.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Debug\protocol.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Debug\pl\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Debug\protocolTests.csprojAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Debug\protocolTests.csproj.CoreCompileInputs.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Debug\protocolTests.csproj.CopyComplete
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Debug\protocolTests.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Debug\protocolTests.pdb

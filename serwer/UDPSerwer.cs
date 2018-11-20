@@ -54,10 +54,9 @@ namespace serwer
             {
                 IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
                 var data = m_server.Receive(ref sender);
-                var threadLicz = new ThreadLicz(data, sender);
-                var Thread = new Thread(new ThreadStart(threadLicz.Run));
-                Thread.Name = "connection";
-                Thread.Start();
+                var threadLicz = new ThreadLicz(data);
+                data = threadLicz.Run();
+                m_server.Send(data, data.Length, sender);
             }
         }
     }
