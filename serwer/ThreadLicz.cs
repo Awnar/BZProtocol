@@ -13,15 +13,15 @@ namespace serwer
 {
     public class ThreadLicz
     {
-        private Frame _frame;
+        private Datagram _frame;
         private static DB db = new DB();
-        private byte[] data;
+        private Datagram data;
 
         public ThreadLicz(byte[] data)
         {
             try
             {
-                _frame = new Frame(data);
+                _frame = new Datagram(data);
             }
             catch (Exception e)
             {
@@ -51,10 +51,13 @@ namespace serwer
              * 1 - brak wolnych miejsc w sesji
              * 2 - przekroczono zakres zmiennej
              * 3 - nieznana sesja
+             * 4 - brak liczb
              * 100 - nieznany błąd
              */
 
-            Console.WriteLine(DateTime.Now + " ID:" + _frame.ID + " S:" + _frame.Status);
+            Console.WriteLine(DateTime.Now + "Client W: " + _frame.Wersja + " S:" + _frame.Status + " O: " +
+                              _frame.Operacja + " IL: " + _frame.IleLiczb + " ID: " + _frame.ID + "DATA: " + _frame.L1 +
+                              " " + _frame.L2 + " " + _frame.L3 + " SK: " + _frame.Checksum);
             lock (db)
             {
                 switch (_frame.Status)
@@ -80,12 +83,17 @@ namespace serwer
                         break;
                 }
             }
-            return data;
+
+            Console.WriteLine(DateTime.Now + "Serwer W: " + data.Wersja + " S:" + data.Status + " O: " +
+                              data.Operacja + " IL: " + data.IleLiczb + " ID: " + data.ID + "DATA: " + data.L1 +
+                              " " + data.L2 + " " + data.L3 + " SK: " + data.Checksum);
+
+            return data.gen().ToArray();
         }
 
         private void calculate(byte s = 0)
         {
-            var tmp = new Frame();
+            var tmp = new Datagram();
             tmp.ID = _frame.ID;
             tmp.Status = (byte)(s + 5);
             try
@@ -107,21 +115,28 @@ namespace serwer
                     default:
                         break;
                 }
+
                 db.clearNumbers(_frame.ID);
             }
-            catch (Exception)
+            catch (OverflowException)
             {
                 tmp.Status = 10;
                 tmp.L1 = 2;
             }
+            catch (Exception)
+            {
+                tmp.Status = 10;
+                tmp.L1 = 4;
+            }
             finally
             {
-                data = tmp.gen().ToArray();
+                data = tmp;
             }
         }
 
         private long dodawanie()
         {
+            if(db.getNumbers(_frame.ID)==null) throw new Exception();
             checked
             {
                 return db.getNumbers(_frame.ID).Sum(item => item);
@@ -133,6 +148,7 @@ namespace serwer
             checked
             {
                 var tmp = db.getNumbers(_frame.ID);
+                if (tmp == null) throw new Exception();
                 var result = tmp[0];
                 for (int i = 1; i < tmp.Count; i++)
                     result -= tmp[i];
@@ -145,6 +161,7 @@ namespace serwer
             checked
             {
                 var tmp = db.getNumbers(_frame.ID);
+                if (tmp == null) throw new Exception();
                 var result = tmp[0];
                 for (int i = 1; i < tmp.Count; i++)
                     result *= tmp[i];
@@ -154,6 +171,7 @@ namespace serwer
 
         private long srednia()
         {
+            if (db.getNumbers(_frame.ID) == null) throw new Exception();
             checked
             {
                 return (long) db.getNumbers(_frame.ID).Average(item => item);
@@ -163,7 +181,7 @@ namespace serwer
 
         private void addnumber(bool x = true)
         {
-            var tmp = new Frame();
+            var tmp = new Datagram();
             try
             {
                 switch (_frame.IleLiczb)
@@ -192,24 +210,24 @@ namespace serwer
             }
             finally
             {
-                data = tmp.gen().ToArray();
+                data = tmp;
             }
         }
 
         private void endSession()
         {
             db.unlockID(_frame.ID);
-            var tmp = new Frame();
+            var tmp = new Datagram();
 
             tmp.Status = 15;
             tmp.ID = _frame.ID;
 
-            data = tmp.gen().ToArray();
+            data = tmp;
         }
 
         private void newSession()
         {
-            var tmp = new Frame();
+            var tmp = new Datagram();
             try
             {
                 var nID = db.getFreeID();
@@ -223,16 +241,16 @@ namespace serwer
             }
             finally
             {
-                data = tmp.gen().ToArray();
+                data = tmp;
             }
         }
 
         private void error()
         {
-            var tmp = new Frame();
+            var tmp = new Datagram();
             tmp.Status = 10;
             tmp.L1 = 100;
-            data = tmp.gen().ToArray();
+            data = tmp;
         }
     }
 }

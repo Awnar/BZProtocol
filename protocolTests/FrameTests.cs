@@ -15,12 +15,12 @@ namespace protocol.Tests
         [TestMethod()]
         public void FrameTest()
         {
-            var x =new Frame();
+            var x =new Datagram();
             x.ID = 12;
             x.Operacja = 2;
             x.Status = 3;
 
-            var z = new Frame(x.gen());
+            var z = new Datagram(x.gen());
 
             Console.WriteLine(z.ID +"\n"+z.Operacja+"\n"+z.Status+"\n"+z.Checksum+"\n"+z.IleLiczb);
             Console.WriteLine(z.L1 + "\n" + z.L2 + "\n" + z.L3);
@@ -29,7 +29,7 @@ namespace protocol.Tests
         [TestMethod()]
         public void FrameTest2()
         {
-            var x = new Frame();
+            var x = new Datagram();
             x.ID = 1;
             x.Operacja = 2;
             x.Status = 3;
@@ -37,7 +37,7 @@ namespace protocol.Tests
             x.L1 = 28;
             x.L2 = 38;
             
-            var z = new Frame(x.gen());
+            var z = new Datagram(x.gen());
 
             Console.WriteLine(z.ID + "\n" + z.Operacja + "\n" + z.Status + "\n" + z.Checksum + "\n" + z.IleLiczb);
             Console.WriteLine(z.L1 + "\n" + z.L2 + "\n" + z.L3);

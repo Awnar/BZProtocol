@@ -25,7 +25,7 @@ namespace klient
             
             serwer.Connect(DEFAULT_SERVER, DEFAULT_PORT);
 
-            Frame frame = new Frame();
+            Datagram frame = new Datagram();
             Send(frame);
 
             bool running = true;
@@ -33,7 +33,7 @@ namespace klient
             {
                 try
                 {
-                    var odp = new Frame(ReceiveLoop());
+                    var odp = new Datagram(ReceiveLoop());
                     odpS(odp);
                 }
                 catch (Exception e)
@@ -44,7 +44,7 @@ namespace klient
                 }
 
 
-                frame = new Frame();
+                frame = new Datagram();
                 frame.ID = ID;
                 // ustalenie statusu
 
@@ -53,9 +53,13 @@ namespace klient
                 Console.WriteLine("2 - wykonanie operacji");
                 Console.WriteLine("3 - przeslanie liczb i wykonanie operacji");
                 Console.WriteLine("4 - zakonczenie transmisji");
+                Console.WriteLine("0 - edytuj ręcznie");
                 int choice = Int32.Parse(Console.ReadLine());
                 switch (choice)
                 {
+                    case 0:
+                        edit();
+                        continue;
                     case 1:
                         frame.Status = 2;
                         break;
@@ -147,7 +151,40 @@ namespace klient
             }
         }
 
-        private static void odpS(Frame fr)
+        private static void edit()
+        {
+            Datagram frame = new Datagram();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Podaj wersję (4b)");
+                    frame.Wersja = byte.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj status (4b)");
+                    frame.Status = byte.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj operację (2b)");
+                    frame.Operacja = byte.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj ID sesji (4b)");
+                    frame.ID = byte.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj L1");
+                    frame.L1 = Int64.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj L2");
+                    frame.L2 = Int64.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj L3");
+                    frame.L3 = Int64.Parse(Console.ReadLine());
+                    Console.WriteLine("Ile liczb ma uwzglądniać");
+                    frame.IleLiczb = byte.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("coś poszło nie tak: " + e.Message);
+                }
+                break;
+            }
+            Send(frame);
+        }
+
+        private static void odpS(Datagram fr)
         {
             switch (fr.Status)
             {
@@ -191,6 +228,9 @@ namespace klient
                 case 3:
                     Console.WriteLine("Brak takiej sesji");
                     break;
+                case 4:
+                    Console.WriteLine("Brak wprowadzonych liczb");
+                    break;
                 case 100:
                     Console.WriteLine("Serwer nie mógł rozpoznać żądania");
                     break;
@@ -200,7 +240,7 @@ namespace klient
             }
         }
 
-        private static void Send(Frame fr)
+        private static void Send(Datagram fr)
         {
             var data = fr.gen();
             serwer.Send(data, data.Length);
