@@ -86,7 +86,7 @@ namespace serwer
                 }
             }
 
-            Console.WriteLine(DateTime.Now + " Serwer W: " + data.Wersja + " S:" + data.Status + " O: " +
+            Console.WriteLine(DateTime.Now + " Serwer W: " + data.Wersja + " S: " + data.Status + " O: " +
                               data.Operacja + " IL: " + data.IleLiczb + " ID: " + data.ID + " DATA: " + data.L1 +
                               " " + data.L2 + " " + data.L3 + " SK: " + data.Checksum);
 
@@ -118,7 +118,6 @@ namespace serwer
                         break;
                 }
 
-                db.clearNumbers(_frame.ID);
             }
             catch (InvalidExpressionException)
             {
@@ -137,6 +136,7 @@ namespace serwer
             }
             finally
             {
+                db.clearNumbers(_frame.ID);
                 data = tmp;
             }
         }
