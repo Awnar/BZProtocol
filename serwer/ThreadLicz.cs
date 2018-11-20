@@ -55,8 +55,8 @@ namespace serwer
              * 100 - nieznany błąd
              */
 
-            Console.WriteLine(DateTime.Now + "Client W: " + _frame.Wersja + " S:" + _frame.Status + " O: " +
-                              _frame.Operacja + " IL: " + _frame.IleLiczb + " ID: " + _frame.ID + "DATA: " + _frame.L1 +
+            Console.WriteLine(DateTime.Now + " Client W: " + _frame.Wersja + " S:" + _frame.Status + " O: " +
+                              _frame.Operacja + " IL: " + _frame.IleLiczb + " ID: " + _frame.ID + " DATA: " + _frame.L1 +
                               " " + _frame.L2 + " " + _frame.L3 + " SK: " + _frame.Checksum);
             lock (db)
             {
@@ -84,8 +84,8 @@ namespace serwer
                 }
             }
 
-            Console.WriteLine(DateTime.Now + "Serwer W: " + data.Wersja + " S:" + data.Status + " O: " +
-                              data.Operacja + " IL: " + data.IleLiczb + " ID: " + data.ID + "DATA: " + data.L1 +
+            Console.WriteLine(DateTime.Now + " Serwer W: " + data.Wersja + " S:" + data.Status + " O: " +
+                              data.Operacja + " IL: " + data.IleLiczb + " ID: " + data.ID + " DATA: " + data.L1 +
                               " " + data.L2 + " " + data.L3 + " SK: " + data.Checksum);
 
             return data.gen().ToArray();

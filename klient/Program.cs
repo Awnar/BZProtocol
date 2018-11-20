@@ -38,7 +38,7 @@ namespace klient
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                     Console.ReadKey();
                     return;
                 }

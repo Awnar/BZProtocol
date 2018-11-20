@@ -45,18 +45,27 @@ namespace serwer
 
         private void StopSerwer()
         {
-            m_server.Close();
+            if (m_server != null)
+                m_server.Close();
         }
 
         void loop()
         {
-            while (true)
+            try
             {
-                IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-                var data = m_server.Receive(ref sender);
-                var threadLicz = new ThreadLicz(data);
-                data = threadLicz.Run();
-                m_server.Send(data, data.Length, sender);
+                while (true)
+                {
+                    IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+                    var data = m_server.Receive(ref sender);
+                    var threadLicz = new ThreadLicz(data);
+                    data = threadLicz.Run();
+                    m_server.Send(data, data.Length, sender);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("krytyczny błąd... ponawianie nasłuchiwania");
+                loop();
             }
         }
     }
