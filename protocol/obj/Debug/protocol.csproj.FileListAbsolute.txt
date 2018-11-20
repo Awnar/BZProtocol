@@ -15,3 +15,4 @@ C:\Users\Awnar\Source\Repos\BZProtocol\protocol\bin\Debug\protocol.pdb
 C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.csproj.CoreCompileInputs.cache
 C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.dll
 C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.csprojAssemblyReference.cache

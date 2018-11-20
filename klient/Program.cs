@@ -17,6 +17,8 @@ namespace klient
 
         private static UdpClient serwer = new UdpClient();
 
+        private static byte ID;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Witaj");
@@ -28,8 +30,21 @@ namespace klient
 
             bool running = true;
             while (running)
-
             {
+                try
+                {
+                    var odp = new Frame(ReceiveLoop());
+                    odpS(odp);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+
+                frame =new Frame();
+                frame.ID = ID;
                 // ustalenie statusu
 
                 Console.WriteLine("Co chcesz zrobić?");
@@ -37,7 +52,7 @@ namespace klient
                 Console.WriteLine("2 - wykonanie operacji");
                 Console.WriteLine("3 - przeslanie liczb i wykonanie operacji");
                 Console.WriteLine("4 - zakonczenie transmisji");
-                int choice = Console.Read();
+                int choice = Int32.Parse(Console.ReadLine());
                 switch (choice)
                 {
                     case 1:
@@ -67,7 +82,7 @@ namespace klient
                     Console.WriteLine("2 - dodawanie");
                     Console.WriteLine("3 - odejmowanie");
                     Console.WriteLine("4 - srednia");
-                    choice = Console.Read();
+                    choice = Int32.Parse(Console.ReadLine());
                     switch (choice)
                     {
                         case 1:
@@ -97,26 +112,26 @@ namespace klient
                         if (i % 3 == 1)
                         {
                             Console.WriteLine("\nWpisz pierwsza liczbe:");
-                            frame.L1 = Console.Read();
+                            frame.L1 = Int64.Parse(Console.ReadLine());
                         }
 
                         if (i % 3 == 2)
                         {
                             wpiszLiczby(1);
                             Console.WriteLine("Wpisz druga liczbe:");
-                            frame.L2 = Console.Read();
+                            frame.L2 = Int64.Parse(Console.ReadLine());
                         }
 
                         if (i % 3 == 0)
                         {
-                            wpiszLiczby(1); wpiszLiczby(2);
+                            wpiszLiczby(2);
                             Console.WriteLine("Wpisz trzecia liczbe:");
-                            frame.L3 = Console.Read();
+                            frame.L3 = Int64.Parse(Console.ReadLine());
                         }
                     }
 
                     Console.WriteLine("Ile liczb chcesz przeslac? (1-3)");
-                    choice = Console.Read();
+                    choice = Int32.Parse(Console.ReadLine());
                     if (choice == 1 || choice == 2 || choice == 3)
                         wpiszLiczby(choice);
                     else
@@ -126,6 +141,61 @@ namespace klient
                     }
                 }
 
+                Send(frame);
+
+            }
+        }
+
+        private static void odpS(Frame fr)
+        {
+            switch (fr.Status)
+            {
+                case 1:
+                    ID = fr.ID;
+                    Console.WriteLine("Nawiązano połączenie, ID to "+ID);
+                    break;
+                case 3:
+                    Console.WriteLine("Liczby dotarły");
+                    break;
+                case 5:
+                case 7:
+                    Console.WriteLine("Wynik to: "+fr.L1);
+                    break;
+                case 10:
+                    serwerError(fr.L1);
+                    break;
+                case 15:
+                    Console.WriteLine("Koniec sesji\nNaciśnij dowolny klawisz by zakończyć pracę");
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                    break;
+                default:
+                    Console.WriteLine("Nieznana odpowiedz serwera");
+                    break;
+            }
+        }
+
+        private static void serwerError(long frL1)
+        {
+            switch (frL1)
+            {
+                case 1:
+                    Console.WriteLine("Brak dosępnych sesji");
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                    break;
+                case 2:
+                    Console.WriteLine("Przekroczono zakres zmiennej");
+                    break;
+                case 3:
+                    Console.WriteLine("Brak takiej sesji");
+                    break;
+                case 100:
+                    Console.WriteLine("Serwer nie mógł rozpoznać żądania");
+                    break;
+                default:
+                    Console.WriteLine("Nie znany błąd");
+                    break;
             }
         }
 

@@ -107,10 +107,12 @@ namespace serwer
                     default:
                         break;
                 }
+                db.clearNumbers(_frame.ID);
             }
             catch (Exception)
             {
-                tmp.Status = 12;
+                tmp.Status = 10;
+                tmp.L1 = 2;
             }
             finally
             {
@@ -120,30 +122,42 @@ namespace serwer
 
         private long dodawanie()
         {
-            return db.getNumbers(_frame.ID).Sum(item => item);
+            checked
+            {
+                return db.getNumbers(_frame.ID).Sum(item => item);
+            }
         }
 
         private long odejmowanie()
         {
-            var tmp = db.getNumbers(_frame.ID);
-            var result = tmp[0];
-            for (int i = 1; i < tmp.Count; i++)
-                result -= tmp[i];
-            return result;
+            checked
+            {
+                var tmp = db.getNumbers(_frame.ID);
+                var result = tmp[0];
+                for (int i = 1; i < tmp.Count; i++)
+                    result -= tmp[i];
+                return result;
+            }
         }
 
         private long mnozenie()
         {
-            var tmp = db.getNumbers(_frame.ID);
-            var result = tmp[0];
-            for (int i = 1; i < tmp.Count; i++)
-                result *= tmp[i];
-            return result;
+            checked
+            {
+                var tmp = db.getNumbers(_frame.ID);
+                var result = tmp[0];
+                for (int i = 1; i < tmp.Count; i++)
+                    result *= tmp[i];
+                return result;
+            }
         }
 
         private long srednia()
         {
-            return (long)db.getNumbers(_frame.ID).Average(item => item);
+            checked
+            {
+                return (long) db.getNumbers(_frame.ID).Average(item => item);
+            }
         }
 
 
@@ -155,13 +169,13 @@ namespace serwer
                 switch (_frame.IleLiczb)
                 {
                     case 3:
-                        db.addNumbers(_frame.ID, _frame.L3);
-                        db.addNumbers(_frame.ID, _frame.L2);
                         db.addNumbers(_frame.ID, _frame.L1);
+                        db.addNumbers(_frame.ID, _frame.L2);
+                        db.addNumbers(_frame.ID, _frame.L3);
                         break;
                     case 2:
-                        db.addNumbers(_frame.ID, _frame.L2);
                         db.addNumbers(_frame.ID, _frame.L1);
+                        db.addNumbers(_frame.ID, _frame.L2);
                         break;
                     case 1:
                         db.addNumbers(_frame.ID, _frame.L1);
