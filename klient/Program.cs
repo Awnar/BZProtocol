@@ -12,7 +12,7 @@ namespace klient
 {
     class Program
     {
-        private static IPAddress DEFAULT_SERVER = IPAddress.Parse("10.0.0.2");
+        private static IPAddress DEFAULT_SERVER = IPAddress.Parse("10.0.0.1");
         private static int DEFAULT_PORT = 9999;
 
         private static UdpClient serwer = new UdpClient();

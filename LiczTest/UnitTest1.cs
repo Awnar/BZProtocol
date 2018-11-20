@@ -53,7 +53,7 @@
 //            x.Status = 3;
 
 //            var data = x.gen();
-//            var licz = new ThreadLicz(data, _serwer);
+//            var licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //        }
@@ -72,7 +72,7 @@
 //            x.L1 = 2;
 
 //            var data = x.gen();
-//            var licz = new ThreadLicz(data, _serwer);
+//            var licz = new Processing(data, _serwer);
 //            licz.Run();
 //        }
 
@@ -88,7 +88,7 @@
 //            {
 //                var x = new Frame();
 //                var data = x.gen();
-//                var licz = new ThreadLicz(data, _serwer);
+//                var licz = new Processing(data, _serwer);
 //                licz.Run();
 //                Thread.Sleep(10);
 //            }
@@ -105,7 +105,7 @@
 //            //sesja
 //            var x = new Frame();
 //            var data = x.gen();
-//            var licz = new ThreadLicz(data, _serwer);
+//            var licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            while (FR.Count == 0)
@@ -116,7 +116,7 @@
 //            x.L1 = 12;
 //            x.Status = 2;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            //wysłanie liczby
@@ -124,7 +124,7 @@
 //            x.L1 = 6;
 //            x.Status = 2;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            //licz
@@ -132,7 +132,7 @@
 //            x.Status = 4;
 //            x.Operacja = 2;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 //        }
 
@@ -147,7 +147,7 @@
 //            //sesja
 //            var x = new Frame();
 //            var data = x.gen();
-//            var licz = new ThreadLicz(data, _serwer);
+//            var licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            while (FR.Count == 0)
@@ -158,7 +158,7 @@
 //            x.L1 = 120;
 //            x.Status = 2;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            //wysłanie liczby
@@ -166,7 +166,7 @@
 //            x.L1 = 6;
 //            x.Status = 2;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            //licz
@@ -175,13 +175,13 @@
 //            x.L1 = 5;
 //            x.Operacja = 3;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 
 //            x.ID = FR[0].ID;
 //            x.Status = 14;
 //            data = x.gen();
-//            licz = new ThreadLicz(data, _serwer);
+//            licz = new Processing(data, _serwer);
 //            licz.Run();
 //        }
 

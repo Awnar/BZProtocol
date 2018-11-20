@@ -57,8 +57,8 @@ namespace serwer
                 while (true)
                 {
                     var data = m_server.Receive(ref sender);
-                    var threadLicz = new ThreadLicz(data);
-                    data = threadLicz.Run();
+                    var processing = new Processing(data);
+                    data = processing.Run();
                     m_server.Send(data, data.Length, sender);
                 }
             }
