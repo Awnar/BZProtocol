@@ -16,3 +16,9 @@ C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.csproj.CoreCo
 C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.dll
 C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.pdb
 C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Debug\protocol.csprojAssemblyReference.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\protocol\bin\Debug\protocol.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\protocol\bin\Debug\protocol.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\protocol\obj\Debug\protocol.csprojAssemblyReference.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\protocol\obj\Debug\protocol.csproj.CoreCompileInputs.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\protocol\obj\Debug\protocol.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\protocol\obj\Debug\protocol.pdb

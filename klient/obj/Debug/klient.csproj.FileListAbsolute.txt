@@ -22,3 +22,13 @@ C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Debug\klient.csproj.CoreCompil
 C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Debug\klient.csproj.CopyComplete
 C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Debug\klient.exe
 C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Debug\klient.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\bin\Debug\klient.exe.config
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\bin\Debug\klient.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\bin\Debug\klient.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\bin\Debug\protocol.dll
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\bin\Debug\protocol.pdb
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\obj\Debug\klient.csprojAssemblyReference.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\obj\Debug\klient.csproj.CoreCompileInputs.cache
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\obj\Debug\klient.csproj.CopyComplete
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\obj\Debug\klient.exe
+D:\Downloads\Studia\Semestr 03\TS\BZProtocol\klient\obj\Debug\klient.pdb

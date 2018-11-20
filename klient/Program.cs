@@ -39,11 +39,12 @@ namespace klient
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    throw;
+                    Console.ReadKey();
+                    return;
                 }
 
 
-                frame =new Frame();
+                frame = new Frame();
                 frame.ID = ID;
                 // ustalenie statusu
 
@@ -213,7 +214,7 @@ namespace klient
             }
             catch (Exception)
             {
-                Console.WriteLine("Serwer nie odsyła odpowiedzi, próba:" + (i + 1));
+                Console.WriteLine("Serwer nie odsyła odpowiedzi, próba: " + (i + 1));
                 if (i++ < 3)
                 {
                     return ReceiveLoop(i);
@@ -228,7 +229,7 @@ namespace klient
 
         private static byte[] Receive()
         {
-            var timeToWait = TimeSpan.FromSeconds(10);
+            var timeToWait = TimeSpan.FromSeconds(3);
 
             var asyncResult = serwer.BeginReceive(null, null);
             asyncResult.AsyncWaitHandle.WaitOne(timeToWait);
