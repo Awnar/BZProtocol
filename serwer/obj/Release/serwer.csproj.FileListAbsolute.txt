@@ -1,0 +1,10 @@
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\bin\Release\serwer.exe.config
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\bin\Release\serwer.exe
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\bin\Release\serwer.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\bin\Release\protocol.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\bin\Release\protocol.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\obj\Release\serwer.csprojAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\obj\Release\serwer.csproj.CoreCompileInputs.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\obj\Release\serwer.csproj.CopyComplete
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\obj\Release\serwer.exe
+C:\Users\Awnar\Source\Repos\BZProtocol\serwer\obj\Release\serwer.pdb

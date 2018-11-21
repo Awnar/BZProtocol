@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,16 @@ namespace protocol
          * pola liczb (64b)*3
          * -----------------------
          * 16b suma kontrolna
+         *
+         *
+         *
+         *
+         * 2b pole operacji
+         * pola liczb (64b)
+         * 4b status
+         * 4b ID
+         * 6b suma K
+         * 
          */
 
         /* Statusy:
@@ -47,6 +59,7 @@ namespace protocol
         char _sumaKomtrolna;
         bool _sumaKomtrolnaB;
         long[] _liczby;
+        private long liczba;
 
         static byte _wersja = 1;
 
@@ -54,6 +67,29 @@ namespace protocol
         {
             Wersja = _wersja;
             _liczby = new long[3] {0, 0, 0};
+        }
+
+        public byte[] fuckthis()
+        {
+            liczba = L1;
+            var data = new byte[10];
+            //for (int i = 0; i < 11; i++)
+            //{
+            //    data[i] = 0xff;
+            //}
+            data[0] = (byte) (Operacja << 6);
+            var tmp = BitConverter.GetBytes(liczba);
+            for (int j = 0; j < tmp.Length; j++)
+            {
+                data[j] += (byte) (tmp[j] >> 2);
+                data[j + 1] = (byte) (tmp[j] << 6);
+            }
+
+            data[8] += (byte) ((0x0f & Status) << 2);
+            data[8] += (byte)((0x0f & ID) >> 2);
+            data[9] += (byte)((0x0f & ID) << 6);
+            data[9] += (byte) 0x3f;
+            return data;
         }
 
         private char _Checksum()

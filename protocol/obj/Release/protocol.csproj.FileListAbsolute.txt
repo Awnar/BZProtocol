@@ -1,0 +1,6 @@
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\bin\Release\protocol.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\bin\Release\protocol.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Release\protocol.csprojAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Release\protocol.csproj.CoreCompileInputs.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Release\protocol.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocol\obj\Release\protocol.pdb
