@@ -12,7 +12,7 @@ namespace klient
 {
     class Program
     {
-        private static IPAddress DEFAULT_SERVER = IPAddress.Parse("10.0.0.1");
+        private static IPAddress DEFAULT_SERVER;
         private static int DEFAULT_PORT = 9999;
 
         private static UdpClient serwer = new UdpClient();
@@ -21,7 +21,20 @@ namespace klient
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Witaj");
+            Console.WriteLine("Witaj!");
+            Console.WriteLine("Podaj IP serwera:");
+            while (true)
+            {
+                try
+                {
+                    DEFAULT_SERVER = IPAddress.Parse(Console.ReadLine());
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Coś poszło nie tak... Spróbuj jeszcze raz");
+                }
+            }
             
             serwer.Connect(DEFAULT_SERVER, DEFAULT_PORT);
 
