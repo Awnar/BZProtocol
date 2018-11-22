@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,7 +29,8 @@ namespace protocol
          * pola liczb (64b)
          * 4b status
          * 4b ID
-         * 6b suma K
+         * 4b suma K
+         * 2b --
          * 
          */
 
@@ -69,14 +71,10 @@ namespace protocol
             _liczby = new long[3] {0, 0, 0};
         }
 
-        public byte[] fuckthis()
+        public byte[] gen2()
         {
             liczba = L1;
             var data = new byte[10];
-            //for (int i = 0; i < 11; i++)
-            //{
-            //    data[i] = 0xff;
-            //}
             data[0] = (byte) (Operacja << 6);
             var tmp = BitConverter.GetBytes(liczba);
             for (int j = 0; j < tmp.Length; j++)
@@ -84,12 +82,50 @@ namespace protocol
                 data[j] += (byte) (tmp[j] >> 2);
                 data[j + 1] = (byte) (tmp[j] << 6);
             }
-
             data[8] += (byte) ((0x0f & Status) << 2);
-            data[8] += (byte)((0x0f & ID) >> 2);
-            data[9] += (byte)((0x0f & ID) << 6);
-            data[9] += (byte) 0x3f;
+            data[8] += (byte) ((0x0f & ID) >> 2);
+            data[9] += (byte) ((0x0f & ID) << 6);
+            data[9] += (byte) (_Checksum2(data) << 2);
+            data[9] += 0x3;
             return data;
+        }
+
+        private byte _Checksum2(byte[] data)
+        {
+            int tmp = data.Sum(item => item);
+            while (tmp > 0xf)
+            {
+                tmp = (tmp & 0xf) + (tmp >> 6);
+            }
+
+            return (byte)tmp;
+        }
+
+        public void _konstruktor2(byte[] bytes)
+        {
+            if (bytes.Length != 10) throw new Exception("Datagram ma złą długość");
+
+            Operacja = (byte) (bytes[0] >> 6);
+
+            var data2 = new byte[8];
+            for (int j = 0; j < 8; j++)
+            {
+                data2[j] = (byte)(bytes[j] << 2);
+                data2[j] += (byte)(bytes[j + 1] >> 6);
+            }
+            L1 = BitConverter.ToInt64(data2, 0);
+
+            Status = (byte) (0x0f & (bytes[8] >> 2));
+            byte tmp = (byte) ((0x03 & bytes[8]) << 2);
+            tmp += (byte)((0xc0 & bytes[9]) >> 6);
+            ID = tmp;
+
+            tmp = (byte) ((bytes[9] & 0x3C) >> 2);
+            bytes[9] = (byte) (bytes[9] & 0xC0);
+            var z = _Checksum2(bytes);
+            _sumaKomtrolnaB = z == tmp;
+
+            if (_sumaKomtrolnaB == false) throw new Exception("Błąd sumy kontrolnej");
         }
 
         private char _Checksum()
@@ -105,6 +141,7 @@ namespace protocol
 
             return (char)tmp;
         }
+
 
         public byte[] gen()
         {

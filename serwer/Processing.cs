@@ -22,7 +22,8 @@ namespace serwer
         {
             try
             {
-                _frame = new Datagram(data);
+                _frame = new Datagram();
+                _frame._konstruktor2(data);
             }
             catch (Exception e)
             {
@@ -58,8 +59,8 @@ namespace serwer
              */
 
             Console.WriteLine(DateTime.Now + " Client W: " + _frame.Wersja + " S: " + _frame.Status + " O: " +
-                              _frame.Operacja + " IL: " + _frame.IleLiczb + " ID: " + _frame.ID + " DATA: " + _frame.L1 +
-                              " " + _frame.L2 + " " + _frame.L3 + " SK: " + _frame.Checksum);
+                              _frame.Operacja + " ID: " + _frame.ID + " DATA: " + _frame.L1 + " SK: " +
+                              _frame.Checksum);
             lock (db)
             {
                 switch (_frame.Status)
@@ -87,10 +88,9 @@ namespace serwer
             }
 
             Console.WriteLine(DateTime.Now + " Serwer W: " + data.Wersja + " S: " + data.Status + " O: " +
-                              data.Operacja + " IL: " + data.IleLiczb + " ID: " + data.ID + " DATA: " + data.L1 +
-                              " " + data.L2 + " " + data.L3 + " SK: " + data.Checksum);
+                              data.Operacja + " ID: " + data.ID + " DATA: " + data.L1 + " SK: " + data.Checksum);
 
-            return data.gen().ToArray();
+            return data.gen2().ToArray();
         }
 
         private void calculate(byte s = 0)

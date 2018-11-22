@@ -47,12 +47,12 @@ namespace protocol.Tests
         public void FrameTestTF2()
         {
             var x = new Datagram();
-            x.ID = 7;
-            x.Operacja = 2;
-            x.Status = 7;
-            x.L1 = -1;
+            x.ID = 3;
+            x.Operacja = 1;
+            x.Status = 4;
+            x.L1 = 25;
 
-            var data = x.fuckthis();
+            var data = x.gen2();
             foreach (var item in data)
             {
                 Console.WriteLine("{0:X}", item);
@@ -70,6 +70,12 @@ namespace protocol.Tests
                 Console.WriteLine("{0:X}", item);
             }
             Console.WriteLine("\n" + BitConverter.ToInt64(data2, 0));
+
+            x._konstruktor2(data);
+            var z = x;
+
+            Console.WriteLine("ID "+z.ID + "\nO " + z.Operacja + "\nS " + z.Status + "\nC " + z.Checksum);
+            Console.WriteLine(z.L1);
         }
 
         [TestMethod()]

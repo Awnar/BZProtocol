@@ -39,6 +39,7 @@ namespace klient
             serwer.Connect(DEFAULT_SERVER, DEFAULT_PORT);
 
             Datagram frame = new Datagram();
+            frame.gen2();
             Send(frame);
 
             bool running = true;
@@ -46,7 +47,8 @@ namespace klient
             {
                 try
                 {
-                    var odp = new Datagram(ReceiveLoop());
+                    var odp = new Datagram();
+                    odp._konstruktor2(ReceiveLoop());
                     odpS(odp);
                 }
                 catch (Exception e)
@@ -105,51 +107,10 @@ namespace klient
                         break;
                 }
 
-                if (frame.Status == 4 || frame.Status == 6)
-                {
-                    //ustalenie operacji
-
-                    Console.WriteLine("\nJaka operacje na liczbach chcesz wykonac?");
-                    Console.WriteLine("1 - mnozenie");
-                    Console.WriteLine("2 - dodawanie");
-                    Console.WriteLine("3 - odejmowanie");
-                    Console.WriteLine("4 - srednia");
-                    while (true)
-                    {
-                        try
-                        {
-                            choice = Int32.Parse(Console.ReadLine());
-                            break;
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
-                        }
-                    }
-                    switch (choice)
-                    {
-                        case 1:
-                            frame.Operacja = 0;
-                            break;
-                        case 2:
-                            frame.Operacja = 1;
-                            break;
-                        case 3:
-                            frame.Operacja = 2;
-                            break;
-                        case 4:
-                            frame.Operacja = 3;
-                            break;
-                        default:
-                            Console.WriteLine("Nie ma takiej operacji. Ustawiam na domyślny (dodawanie)");
-                            frame.Operacja = 0;
-                            break;
-                    }
-                }
-
                 if (frame.Status == 2 || frame.Status == 6)
                 {
                     // ustalenie ilości liczb i ich wartości
+                    /*
                     void wpiszLiczby(int i)
                     {
                         if (i % 3 == 1)
@@ -205,8 +166,9 @@ namespace klient
                             }
                         }
                     }
+                    */
 
-                    Console.WriteLine("Ile liczb chcesz przeslac? (1-3)");
+                    Console.WriteLine("Ile liczb chcesz przeslac?");
                     while (true)
                     {
                         try
@@ -219,12 +181,101 @@ namespace klient
                             Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
                         }
                     }
-                    if (choice == 1 || choice == 2 || choice == 3)
-                        wpiszLiczby(choice);
-                    else
+                    //if (choice == 1 || choice == 2 || choice == 3)
+                    //    wpiszLiczby(choice);
+                    //else
+                    //{
+                    //    Console.WriteLine("Bład wejscia. Ustawiam na domyślny (jedna liczba)");
+                    //    wpiszLiczby(1);
+                    //}
+
+                    var tmp = frame.Status;
+                    for (int i = 0; i < choice; i++)
                     {
-                        Console.WriteLine("Bład wejscia. Ustawiam na domyślny (jedna liczba)");
-                        wpiszLiczby(1);
+                        frame.Status = 2;
+                        Console.WriteLine("Wpisz liczbe nr " + (i + 1) + ":");
+                        try
+                        {
+                            frame.L1 = Int64.Parse(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                        }
+
+                        if (i < choice - 1 && tmp == 6)
+                        {
+                            Send(frame);
+                            frame = new Datagram();
+                            frame.ID = ID;
+                        }
+                        else if(tmp==2)
+                        {
+                            Send(frame);
+                            frame = new Datagram();
+                            frame.ID = ID;
+                        }
+
+                        if (i < choice - 1)
+                        {
+                            try
+                            {
+                                var odp = new Datagram();
+                                odp._konstruktor2(ReceiveLoop());
+                                odpS(odp);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                                Console.ReadKey();
+                                return;
+                            }
+                        }
+                    }
+
+                    frame.Status = tmp;
+                    if (frame.Status == 2) continue;
+                }
+
+                if (frame.Status == 4 || frame.Status == 6)
+                {
+                    //ustalenie operacji
+
+                    Console.WriteLine("\nJaka operacje na liczbach chcesz wykonac?");
+                    Console.WriteLine("1 - mnozenie");
+                    Console.WriteLine("2 - dodawanie");
+                    Console.WriteLine("3 - odejmowanie");
+                    Console.WriteLine("4 - srednia");
+                    while (true)
+                    {
+                        try
+                        {
+                            choice = Int32.Parse(Console.ReadLine());
+                            break;
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                        }
+                    }
+                    switch (choice)
+                    {
+                        case 1:
+                            frame.Operacja = 0;
+                            break;
+                        case 2:
+                            frame.Operacja = 1;
+                            break;
+                        case 3:
+                            frame.Operacja = 2;
+                            break;
+                        case 4:
+                            frame.Operacja = 3;
+                            break;
+                        default:
+                            Console.WriteLine("Nie ma takiej operacji. Ustawiam na domyślny (dodawanie)");
+                            frame.Operacja = 0;
+                            break;
                     }
                 }
 
@@ -329,7 +380,7 @@ namespace klient
 
         private static void Send(Datagram fr)
         {
-            var data = fr.gen();
+            var data = fr.gen2();
             serwer.Send(data, data.Length);
         }
 
