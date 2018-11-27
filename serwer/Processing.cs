@@ -58,9 +58,9 @@ namespace serwer
              * 101 - nie obsługiwana wersja protokołu
              */
 
-            Console.WriteLine(DateTime.Now + " Client W: " + _frame.Wersja + " S: " + _frame.Status + " O: " +
-                              _frame.Operacja + " ID: " + _frame.ID + " DATA: " + _frame.L1 + " SK: " +
-                              _frame.Checksum);
+            Console.WriteLine(DateTime.Now + " Client O: " + _frame.Operacja + " DATA: " + _frame.L1 + " S: " +
+                              _frame.Status + " ID: " + _frame.ID + " SK: " + _frame.Checksum);
+
             lock (db)
             {
                 switch (_frame.Status)
@@ -87,8 +87,13 @@ namespace serwer
                 }
             }
 
-            Console.WriteLine(DateTime.Now + " Serwer W: " + data.Wersja + " S: " + data.Status + " O: " +
-                              data.Operacja + " ID: " + data.ID + " DATA: " + data.L1 + " SK: " + data.Checksum);
+            //return data.gen2().ToArray();
+            //var a = data.gen2().ToArray();
+            var b = data.gen2().ToArray();
+            data._konstruktor2(b);
+
+            Console.WriteLine(DateTime.Now + " Server O: " + data.Operacja + " DATA: " + data.L1 + " S: " +
+                              data.Status + " ID: " + data.ID + " SK: " + data.Checksum);
 
             return data.gen2().ToArray();
         }
