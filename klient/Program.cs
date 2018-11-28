@@ -79,7 +79,7 @@ namespace klient
                     }
                     catch
                     {
-                        Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                        Console.WriteLine("Błąd odczytu. Spróbuj ponownie");
                     }
                 }
                 
@@ -110,64 +110,6 @@ namespace klient
                 if (frame.Status == 2 || frame.Status == 6)
                 {
                     // ustalenie ilości liczb i ich wartości
-                    /*
-                    void wpiszLiczby(int i)
-                    {
-                        if (i % 3 == 1)
-                        {
-                            Console.WriteLine("\nWpisz pierwsza liczbe:");
-                            while (true)
-                            {
-                                try
-                                {
-                                    frame.L1 = Int64.Parse(Console.ReadLine());
-                                    break;
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
-                                }
-                            }
-                        }
-
-                        if (i % 3 == 2)
-                        {
-                            wpiszLiczby(1);
-                            Console.WriteLine("Wpisz druga liczbe:");
-                            while (true)
-                            {
-                                try
-                                {
-                                    frame.L2 = Int64.Parse(Console.ReadLine());
-                                    break;
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
-                                }
-                            }
-                        }
-
-                        if (i % 3 == 0)
-                        {
-                            wpiszLiczby(2);
-                            Console.WriteLine("Wpisz trzecia liczbe:");
-                            while (true)
-                            {
-                                try
-                                {
-                                    frame.L3 = Int64.Parse(Console.ReadLine());
-                                    break;
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
-                                }
-                            }
-                        }
-                    }
-                    */
-
                     Console.WriteLine("Ile liczb chcesz przeslac?");
                     while (true)
                     {
@@ -181,13 +123,6 @@ namespace klient
                             Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
                         }
                     }
-                    //if (choice == 1 || choice == 2 || choice == 3)
-                    //    wpiszLiczby(choice);
-                    //else
-                    //{
-                    //    Console.WriteLine("Bład wejscia. Ustawiam na domyślny (jedna liczba)");
-                    //    wpiszLiczby(1);
-                    //}
 
                     var tmp = frame.Status;
                     for (int i = 0; i < choice; i++)
@@ -200,7 +135,7 @@ namespace klient
                         }
                         catch
                         {
-                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                            Console.WriteLine("Błąd odczytu. Spróbuj ponownie");
                         }
 
                         if (i < choice - 1 && tmp == 6)
@@ -209,7 +144,7 @@ namespace klient
                             frame = new Datagram();
                             frame.ID = ID;
                         }
-                        else if(tmp==2)
+                        else if (tmp == 2)
                         {
                             Send(frame);
                             frame = new Datagram();
@@ -255,7 +190,7 @@ namespace klient
                         }
                         catch
                         {
-                            Console.WriteLine("Błąd odczytu. Sproóbuj ponownie");
+                            Console.WriteLine("Błąd odczytu. Spróbuj ponownie");
                         }
                     }
                     switch (choice)
@@ -273,7 +208,7 @@ namespace klient
                             frame.Operacja = 3;
                             break;
                         default:
-                            Console.WriteLine("Nie ma takiej operacji. Ustawiam na domyślny (dodawanie)");
+                            Console.WriteLine("Nie ma takiej operacji. Ustawiam na domyślną (dodawanie)");
                             frame.Operacja = 0;
                             break;
                     }
@@ -291,22 +226,14 @@ namespace klient
             {
                 try
                 {
-                    Console.WriteLine("Podaj wersję (4b)");
-                    frame.Wersja = byte.Parse(Console.ReadLine());
-                    Console.WriteLine("Podaj status (4b)");
-                    frame.Status = byte.Parse(Console.ReadLine());
                     Console.WriteLine("Podaj operację (2b)");
                     frame.Operacja = byte.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj liczbę (64b)");
+                    frame.L1 = Int64.Parse(Console.ReadLine());
+                    Console.WriteLine("Podaj status (4b)");
+                    frame.Status = byte.Parse(Console.ReadLine());
                     Console.WriteLine("Podaj ID sesji (4b)");
                     frame.ID = byte.Parse(Console.ReadLine());
-                    Console.WriteLine("Podaj L1");
-                    frame.L1 = Int64.Parse(Console.ReadLine());
-                    Console.WriteLine("Podaj L2");
-                    frame.L2 = Int64.Parse(Console.ReadLine());
-                    Console.WriteLine("Podaj L3");
-                    frame.L3 = Int64.Parse(Console.ReadLine());
-                    Console.WriteLine("Ile liczb ma uwzglądniać");
-                    frame.IleLiczb = byte.Parse(Console.ReadLine());
                     Send(frame);
                 }
                 catch (Exception e)
@@ -325,7 +252,7 @@ namespace klient
             {
                 case 1:
                     ID = fr.ID;
-                    Console.WriteLine("Nawiązano połączenie, ID to "+ID);
+                    Console.WriteLine("Nawiązano połączenie, ID to " + ID);
                     break;
                 case 3:
                     Console.WriteLine("Liczby dotarły");
