@@ -77,6 +77,8 @@ namespace protocol
             var data = new byte[10];
             data[0] = (byte) (Operacja << 6);
             var tmp = BitConverter.GetBytes(liczba);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(tmp);
             for (int j = 0; j < tmp.Length; j++)
             {
                 data[j] += (byte) (tmp[j] >> 2);
@@ -114,6 +116,10 @@ namespace protocol
                 data2[j] += (byte)(bytes[j + 1] >> 6);
             }
             L1 = BitConverter.ToInt64(data2, 0);
+            var zz = BitConverter.GetBytes(L1);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(zz);
+            L1 = BitConverter.ToInt64(zz, 0);
 
             Status = (byte) (0x0f & (bytes[8] >> 2));
             byte tmp = (byte) ((0x03 & bytes[8]) << 2);
