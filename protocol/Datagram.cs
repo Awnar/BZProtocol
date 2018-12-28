@@ -11,26 +11,14 @@ namespace protocol
 {
     public class Datagram
     {
-        /* 4b wersji
-         * 4b status
-         * -----------------------
-         * 2b pole operacji
-         * 2b ile liczb
-         * 4b ID
-         * -----------------------
-         * pola liczb (64b)*3
-         * -----------------------
-         * 16b suma kontrolna
-         *
-         *
-         *
+        /* 
          *
          * 2b pole operacji
          * pola liczb (64b)
          * 4b status
          * 4b ID
          * 4b suma K
-         * 2b --
+         * 2b dopełnienie
          * 
          */
 
@@ -55,19 +43,19 @@ namespace protocol
          * 3 - nieznana sesja
          * 4 - brak liczb
          * 100 - nieznany błąd
+         * 101 - nieobsługiwana wersja protokołu
          *
-         *
-         *0 = mnozenie
-         *1 = dodawanie
-         *2 = odejmowanie
-         *3 = srednia
+         * 00 = mnożenie
+         * 01 = dodawanie
+         * 10 = odejmowanie
+         * 11 = średnia
          *
          *
          */
 
         byte _pole1, _pole2;
-        char _sumaKomtrolna;
-        bool _sumaKomtrolnaB;
+        char _sumaKontrolna;
+        bool _sumaKontrolnaB;
         long[] _liczby;
         private long liczba;
 
@@ -137,9 +125,9 @@ namespace protocol
             tmp = (byte) ((bytes[9] & 0x3C) >> 2);
             bytes[9] = (byte) (bytes[9] & 0xC0);
             var z = _Checksum2(bytes);
-            _sumaKomtrolnaB = z == tmp;
+            _sumaKontrolnaB = z == tmp;
 
-            if (_sumaKomtrolnaB == false) throw new Exception("Błąd sumy kontrolnej");
+            if (_sumaKontrolnaB == false) throw new Exception("Błąd sumy kontrolnej");
         }
 
         private char _Checksum()
@@ -167,9 +155,9 @@ namespace protocol
             gen.AddRange(BitConverter.GetBytes(_liczby[1]));
             gen.AddRange(BitConverter.GetBytes(_liczby[2]));
 
-            _sumaKomtrolna = _Checksum();
-            gen.AddRange(BitConverter.GetBytes(_sumaKomtrolna));
-            _sumaKomtrolnaB = true;
+            _sumaKontrolna = _Checksum();
+            gen.AddRange(BitConverter.GetBytes(_sumaKontrolna));
+            _sumaKontrolnaB = true;
 
             return gen.ToArray();
         }
@@ -190,9 +178,9 @@ namespace protocol
             _liczby[1] = BitConverter.ToInt64(bytes, 10);
             _liczby[2] = BitConverter.ToInt64(bytes, 18);
 
-            _sumaKomtrolna = BitConverter.ToChar(bytes, 26);
+            _sumaKontrolna = BitConverter.ToChar(bytes, 26);
 
-            _sumaKomtrolnaB = _Checksum() == _sumaKomtrolna;
+            _sumaKontrolnaB = _Checksum() == _sumaKontrolna;
 
             if(Checksum==false) throw new Exception("Błąd sumy kontrolnej");
         }
@@ -225,7 +213,7 @@ namespace protocol
             set => _pole2 = (byte) ((_pole2 & 0xf0) + (value & 0x0f));
         }
 
-        public bool Checksum => _sumaKomtrolnaB;
+        public bool Checksum => _sumaKontrolnaB;
 
         public byte IleLiczb
         {

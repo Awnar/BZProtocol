@@ -55,7 +55,7 @@ namespace serwer
              * 3 - nieznana sesja
              * 4 - brak liczb
              * 100 - nieznany błąd
-             * 101 - nie obsługiwana wersja protokołu
+             * 101 - nieobsługiwana wersja protokołu
              */
 
             Console.WriteLine(DateTime.Now + " Client O: " + _frame.Operacja + " DATA: " + _frame.L1 + " S: " +
@@ -87,8 +87,7 @@ namespace serwer
                 }
             }
 
-            //return data.gen2().ToArray();
-            //var a = data.gen2().ToArray();
+            
             var b = data.gen2().ToArray();
             data._konstruktor2(b);
 

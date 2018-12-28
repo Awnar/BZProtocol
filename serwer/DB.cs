@@ -14,7 +14,6 @@ namespace serwer
         private struct session
         {
             public List<long> numbers;
-            public byte lastSStatus;
         }
 
         private const byte MAX = 16;
@@ -46,17 +45,6 @@ namespace serwer
         {
             if (dbb[ID])
                 db[ID].numbers.Clear();
-        }
-
-        public byte getStatus(byte ID)
-        {
-            return dbb[ID] ? db[ID].lastSStatus : (byte) 0;
-        }
-
-        public void setStatus(byte ID, byte status)
-        {
-            if (dbb[ID])
-                db[ID].lastSStatus = status;
         }
 
         public byte getFreeID()
