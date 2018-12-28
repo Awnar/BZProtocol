@@ -1,0 +1,10 @@
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\bin\Release\klient.exe.config
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\bin\Release\klient.exe
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\bin\Release\klient.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\bin\Release\protocol.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\bin\Release\protocol.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Release\klient.csprojAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Release\klient.csproj.CoreCompileInputs.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Release\klient.csproj.CopyComplete
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Release\klient.exe
+C:\Users\Awnar\Source\Repos\BZProtocol\klient\obj\Release\klient.pdb

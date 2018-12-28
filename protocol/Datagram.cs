@@ -55,6 +55,14 @@ namespace protocol
          * 3 - nieznana sesja
          * 4 - brak liczb
          * 100 - nieznany błąd
+         *
+         *
+         *0 = mnozenie
+         *1 = dodawanie
+         *2 = odejmowanie
+         *3 = srednia
+         *
+         *
          */
 
         byte _pole1, _pole2;

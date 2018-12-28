@@ -1,0 +1,11 @@
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Release\protocolTests.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Release\protocolTests.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Release\protocol.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Release\protocol.pdb
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\bin\Release\pl\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Release\protocolTests.csprojAssemblyReference.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Release\protocolTests.csproj.CoreCompileInputs.cache
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Release\protocolTests.csproj.CopyComplete
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Release\protocolTests.dll
+C:\Users\Awnar\Source\Repos\BZProtocol\protocolTests\obj\Release\protocolTests.pdb
