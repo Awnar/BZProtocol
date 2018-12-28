@@ -22,7 +22,16 @@ namespace protocol
          * 
          */
 
-        /* Statusy:
+        /*
+         *
+         * Operacje:
+         *
+         * 00 = mnożenie
+         * 01 = dodawanie
+         * 10 = odejmowanie
+         * 11 = średnia
+         *
+         * Statusy:
          *
          * ---0 - prośba
          * ---1 - akceptacja
@@ -32,8 +41,8 @@ namespace protocol
          * 010- - wykonaj operację
          * 011- - liczby + wykonaj operację
          * 100- - *do przyszłego zastosowania*
-         * 101- - błąd (w L1)
-         * 110- - przekroczono zakres zmiennej
+         * 101- - błąd (przesyłany w polu liczby)
+         * 110- - *do przyszłego zastosowania*
          * 111- - zakończenie transmisji
          *
          * Błędy:
@@ -43,13 +52,6 @@ namespace protocol
          * 3 - nieznana sesja
          * 4 - brak liczb
          * 100 - nieznany błąd
-         * 101 - nieobsługiwana wersja protokołu
-         *
-         * 00 = mnożenie
-         * 01 = dodawanie
-         * 10 = odejmowanie
-         * 11 = średnia
-         *
          *
          */
 

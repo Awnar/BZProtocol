@@ -34,7 +34,16 @@ namespace serwer
 
         public byte[] Run()
         {
-            /* Statusy:
+            /*
+             *
+             * Operacje:
+             *
+             * 00 = mnożenie
+             * 01 = dodawanie
+             * 10 = odejmowanie
+             * 11 = średnia
+             *
+             * Statusy:
              *
              * ---0 - prośba
              * ---1 - akceptacja
@@ -55,7 +64,7 @@ namespace serwer
              * 3 - nieznana sesja
              * 4 - brak liczb
              * 100 - nieznany błąd
-             * 101 - nieobsługiwana wersja protokołu
+             *
              */
 
             Console.WriteLine(DateTime.Now + " Client O: " + _frame.Operacja + " DATA: " + _frame.L1 + " S: " +
